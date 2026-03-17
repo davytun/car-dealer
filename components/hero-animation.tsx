@@ -271,7 +271,7 @@ export function HeroAnimation() {
               <div className="h-px w-12 bg-white/10" />
             </div>
 
-            <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 px-4 w-full transition-all duration-1000 ${isNavigating ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
+            <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 px-4 w-full transition-all duration-1000`}>
                {CATEGORIES.map((cat, i) => (
                  <motion.div 
                   key={cat.name} 
@@ -298,9 +298,19 @@ export function HeroAnimation() {
                     transition: { type: "spring", stiffness: 400, damping: 25 }
                   }}
                   onClick={() => handleCategoryClick(cat.name)}
-                  className="group relative h-40 md:h-48 bg-bg-surface/80 backdrop-blur-3xl border rounded-2xl flex flex-col items-center justify-center p-6 cursor-pointer overflow-hidden shadow-[0_24px_48px_rgba(0,0,0,0.6)]"
+                  className="group relative h-40 md:h-48 bg-bg-surface/80 backdrop-blur-3xl border rounded-2xl flex flex-col items-center justify-center p-6 cursor-pointer overflow-hidden shadow-[0_24px_48px_rgba(0,0,0,0.6)] active:scale-95 transition-all duration-300"
                   style={{ perspective: "1000px" }}
                  >
+                    {/* Ripple/Loading Effect on Active */}
+                    {isNavigating && (
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1.5 }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+                        className="absolute inset-0 bg-white/5 rounded-full blur-3xl pointer-events-none"
+                      />
+                    )}
+
                     {/* Living Border Glow (Inner) */}
                     <motion.div 
                       animate={{ opacity: [0, 0.2, 0] }}
