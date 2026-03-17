@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import { Star, Quote } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import GridBackground from "@/components/ui/grid-background";
 
 const REVIEWS = [
   {
@@ -75,11 +76,15 @@ export function ClientsReviews() {
   const handleMouseLeave = () => marqueeTween.current?.play();
 
   return (
-    <section ref={containerRef} className="py-24 md:py-40 bg-[#020202] relative z-10 border-b border-white/5 overflow-hidden">
+    <section ref={containerRef} className="py-24 md:py-40 bg-bg-base relative z-10 border-b border-white/5 overflow-hidden">
       
       {/* Cinematic Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02)_0%,transparent_70%)]" />
+        <GridBackground 
+          type="grid"
+          gridColor="rgba(255, 255, 255, 0.05)"
+          maskSize="ellipse 80% 80% at 50% 50%"
+        />
         <Quote size={400} className="absolute -top-20 -left-20 text-white/1" />
       </div>
 
@@ -115,7 +120,7 @@ export function ClientsReviews() {
             {MARQUEE_ITEMS.map((review, i) => (
               <div
                 key={i}
-                className="w-[260px] md:w-[380px] shrink-0 aspect-4/3 relative bg-[#080808] border border-white/5 rounded-[2.5rem] p-6 md:p-10 flex flex-col justify-between overflow-hidden transition-all duration-1000 group/card hover:scale-[1.02] hover:border-white/20 shadow-2xl"
+                className="w-[260px] md:w-[380px] shrink-0 aspect-4/3 relative bg-bg-surface border border-white/5 rounded-[2.5rem] p-6 md:p-10 flex flex-col justify-between overflow-hidden transition-all duration-1000 group/card hover:scale-[1.02] hover:border-white/20 shadow-2xl"
               >
                 {/* Emotional Texture & Background */}
                 <div className="absolute inset-0 opacity-0 group-hover/card:opacity-[0.15] transition-opacity duration-1000 pointer-events-none">
@@ -159,8 +164,8 @@ export function ClientsReviews() {
         </div>
 
         {/* Linear Gradient Fades */}
-        <div className="absolute inset-y-0 left-0 w-8 md:w-64 bg-linear-to-r from-[#020202] via-[#020202]/80 to-transparent z-20 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-8 md:w-64 bg-linear-to-l from-[#020202] via-[#020202]/80 to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-8 md:w-64 bg-linear-to-r from-bg-base via-bg-base/80 to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-8 md:w-64 bg-linear-to-l from-bg-base via-bg-base/80 to-transparent z-20 pointer-events-none" />
       </div>
 
       {/* Company Stats Grid */}

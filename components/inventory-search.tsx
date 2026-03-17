@@ -6,6 +6,7 @@ import { Search, ChevronDown, SlidersHorizontal, ArrowRight, X, Filter } from "l
 import { Button } from "@/components/ui/button";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import GridBackground from "@/components/ui/grid-background";
 
 const FILTER_CATEGORIES = [
   { id: "brand", label: "Brand", options: ["All Brands", "Porsche", "Ferrari", "Lamborghini", "Audi", "BMW", "Mercedes"] },
@@ -68,7 +69,7 @@ export function InventorySearch() {
     >
       {/* ── DESKTOP VIEW ────────────────────────────────────────── */}
       <div className="hidden md:block relative">
-        <div className="bg-[#0A0A0A]/40 backdrop-blur-3xl border border-white/10 rounded-full p-2 md:p-3 flex items-center gap-2 shadow-[0_24px_48px_rgba(0,0,0,0.6)]">
+        <div className="bg-bg-surface/40 backdrop-blur-3xl border border-white/10 rounded-full p-2 md:p-3 flex items-center gap-2 shadow-[0_24px_48px_rgba(0,0,0,0.6)]">
           <div className="flex-1 flex items-center px-4">
             {FILTER_CATEGORIES.map((cat) => (
               <div key={cat.id} className="relative flex-1 min-w-[140px] border-r border-white/5 last:border-r-0 filter-item">
@@ -97,7 +98,7 @@ export function InventorySearch() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="absolute top-full left-0 mt-4 w-56 bg-[#0F0F0F] border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden backdrop-blur-xl"
+                      className="absolute top-full left-0 mt-4 w-56 bg-bg-elevated border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden backdrop-blur-xl"
                     >
                       <div className="p-2 space-y-1">
                         {cat.options.map((opt) => (
@@ -144,7 +145,7 @@ export function InventorySearch() {
         {/* Mobile Trigger Pill */}
         <button 
           onClick={() => setIsMobileDrawerOpen(true)}
-          className="w-full bg-[#0A0A0A]/60 backdrop-blur-3xl border border-white/10 rounded-full p-4 flex items-center justify-between shadow-lg active:scale-95 transition-all"
+          className="w-full bg-bg-surface/60 backdrop-blur-3xl border border-white/10 rounded-full p-4 flex items-center justify-between shadow-lg active:scale-95 transition-all"
         >
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40">
@@ -181,7 +182,7 @@ export function InventorySearch() {
                 animate={{ y: 0 }}
                 exit={{ y: "100%" }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="relative w-full max-h-[90vh] bg-[#0F0F0F] rounded-t-[2.5rem] border-t border-white/10 flex flex-col overflow-hidden"
+                className="relative w-full max-h-[90vh] bg-bg-elevated rounded-t-[2.5rem] border-t border-white/10 flex flex-col overflow-hidden"
               >
                 {/* Drag Handle */}
                 <div className="w-full flex justify-center pt-4 pb-2">
@@ -215,7 +216,7 @@ export function InventorySearch() {
                             className={`px-5 py-2.5 rounded-xl text-[10px] font-bold transition-all border ${
                               selectedValues[cat.id] === opt 
                                 ? "bg-white text-black border-white shadow-[0_8px_20px_rgba(255,255,255,0.2)]" 
-                                : "bg-white/[0.03] text-white/30 border-white/5 hover:border-white/10 hover:text-white"
+                                : "bg-white/3 text-white/30 border-white/5 hover:border-white/10 hover:text-white"
                             }`}
                           >
                             {opt}
@@ -227,7 +228,7 @@ export function InventorySearch() {
                 </div>
 
                 {/* Sticky Action Footer */}
-                <div className="absolute bottom-0 left-0 right-0 p-8 bg-linear-to-t from-[#0F0F0F] via-[#0F0F0F] to-transparent border-t border-white/5 flex items-center gap-4">
+                <div className="absolute bottom-0 left-0 right-0 p-8 bg-linear-to-t from-bg-elevated via-bg-elevated to-transparent border-t border-white/5 flex items-center gap-4">
                    <button 
                     onClick={clearFilters}
                     className="h-16 px-8 rounded-full border border-white/10 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/5 transition-all"
@@ -249,6 +250,14 @@ export function InventorySearch() {
       </div>
 
       <div className="hidden md:block absolute inset-0 -z-10 bg-white/5 blur-3xl opacity-50 rounded-full" />
+      
+      <div className="absolute inset-0 -z-20 opacity-30">
+        <GridBackground 
+          type="dot"
+          dotColor="rgba(255, 255, 255, 0.1)"
+          maskSize="ellipse 100% 100% at 50% 50%"
+        />
+      </div>
     </div>
   );
 }

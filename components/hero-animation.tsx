@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import gsap from "gsap";
+import LightRays from "@/components/ui/light-rays";
 
 // ── REAL DATA ──────────────────────────────────────────────────
 
@@ -74,7 +75,7 @@ function SearchDropdown({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute top-full left-0 mt-4 w-64 max-sm:fixed max-sm:inset-x-4 max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:w-auto bg-[#0F0F0F] backdrop-blur-3xl border border-white/10 rounded-2xl shadow-[0_24px_48px_rgba(0,0,0,0.6)] z-200 overflow-hidden p-2"
+            className="absolute top-full left-0 mt-4 w-64 max-sm:fixed max-sm:inset-x-4 max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:w-auto bg-bg-elevated backdrop-blur-3xl border border-white/10 rounded-2xl shadow-[0_24px_48px_rgba(0,0,0,0.6)] z-200 overflow-hidden p-2"
           >
             {options.map((opt) => (
               <div 
@@ -134,22 +135,40 @@ export function HeroAnimation() {
   };
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-[#020202] flex flex-col items-center justify-center pt-24 pb-12">
+    <div className="relative w-full min-h-screen overflow-hidden bg-bg-base flex flex-col items-center justify-center pt-24 pb-12">
       
       {/* ── BACKGROUND LAYER ───────────────────────────────────────── */}
       <div className="absolute inset-0 z-0">
-        <motion.img 
-          src="/images/luxury/porsche_911_rimlit.png" 
-          alt="Luxury car showcase"
-          className="absolute inset-0 h-full w-full object-cover brightness-[0.4]"
-          animate={{ scale: [1, 1.03, 1] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-black/70 via-transparent to-black" />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src="/video/hero2.mp4" type="video/mp4" />
+        </video>
+        {/* Cinematic Overlay (Subtle) */}
+        <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+        {/* Light Rays Effect */}
+        <div className="absolute inset-0 z-10">
+          <LightRays
+            raysOrigin="top-center"
+            raysColor="#ffffff"
+            raysSpeed={1.2}
+            lightSpread={1.0}
+            rayLength={3.0}
+            followMouse={true}
+            mouseInfluence={0.08}
+            noiseAmount={0.03}
+            distortion={0.15}
+            pulsating={true}
+            saturation={1.2}
+          />
+        </div>
       </div>
 
-      {/* ── ATMOSPHERIC LAYER ──────────────────────────────────────── */}
-      <div className="absolute inset-0 z-10 pointer-events-none opacity-[0.06] mix-blend-screen animate-grain" />
+      {/* ── ATMOSPHERIC LAYER ── (Removed noise for clarity) */}
 
       {/* ── CONTENT AREA ───────────────────────────────────────────── */}
       <div className="relative z-20 w-full max-w-7xl px-6 md:px-12 flex flex-col items-center">
@@ -203,7 +222,7 @@ export function HeroAnimation() {
           </div>
 
           {/* Unified Search Bar */}
-          <div className="relative bg-[#1A1A1A]/40 backdrop-blur-3xl border border-white/10 p-4 md:p-3 rounded-3xl md:rounded-[3rem] flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-2 shadow-[0_32px_64px_rgba(0,0,0,0.8)]">
+          <div className="relative bg-bg-surface/40 backdrop-blur-3xl border border-white/10 p-4 md:p-3 rounded-3xl md:rounded-[3rem] flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-2 shadow-[0_32px_64px_rgba(0,0,0,0.8)]">
             
             <div className="grid grid-cols-2 lg:grid-cols-4 flex-1">
               {(Object.keys(FILTER_DATA) as Array<keyof typeof FILTER_DATA>).map((key, i) => (
@@ -280,7 +299,7 @@ export function HeroAnimation() {
                     transition: { type: "spring", stiffness: 400, damping: 25 }
                   }}
                   onClick={() => handleCategoryClick(cat.name)}
-                  className="group relative h-40 md:h-48 bg-[#0A0A0A]/80 backdrop-blur-3xl border rounded-2xl flex flex-col items-center justify-center p-6 cursor-pointer overflow-hidden shadow-[0_24px_48px_rgba(0,0,0,0.6)]"
+                  className="group relative h-40 md:h-48 bg-bg-surface/80 backdrop-blur-3xl border rounded-2xl flex flex-col items-center justify-center p-6 cursor-pointer overflow-hidden shadow-[0_24px_48px_rgba(0,0,0,0.6)]"
                   style={{ perspective: "1000px" }}
                  >
                     {/* Living Border Glow (Inner) */}

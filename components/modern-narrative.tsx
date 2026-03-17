@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import GridBackground from "@/components/ui/grid-background";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -107,7 +108,13 @@ export function ModernNarrative() {
   }, { scope: sectionRef });
 
   return (
-    <section className="bg-[#020202] w-full relative z-10 border-t border-white/5">
+    <section className="bg-bg-base w-full relative z-10 border-t border-white/5">
+      
+      <GridBackground 
+        type="grid"
+        gridColor="rgba(255, 255, 255, 0.02)"
+        maskSize="ellipse 40% 80% at 0% 50%"
+      />
       
       {/* ── INTRO HEADER ── */}
       <div className="max-w-7xl mx-auto px-6 py-20 md:py-32 text-center md:text-left flex flex-col md:flex-row items-end justify-between gap-12">
@@ -131,7 +138,7 @@ export function ModernNarrative() {
       <div className="md:hidden px-8 py-20 pb-32 flex flex-col gap-24">
         {CHAPTERS.map((chapter, idx) => (
           <div key={chapter.id} className="flex flex-col gap-8">
-            <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-white/5 bg-[#111] shadow-2xl">
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-white/5 bg-bg-surface shadow-2xl">
               <img src={chapter.image} alt={chapter.title} className="w-full h-full object-cover grayscale opacity-80" />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6">
@@ -184,7 +191,7 @@ export function ModernNarrative() {
           </div>
 
           {/* CENTER: Image */}
-          <div className="w-full md:w-[45%] h-[40vh] md:h-full relative rounded-3xl overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.5)] bg-[#111]">
+          <div className="w-full md:w-[45%] h-[40vh] md:h-full relative rounded-3xl overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.5)] bg-bg-surface">
             {CHAPTERS.map((chapter) => (
               <div key={chapter.id} className="image-slide absolute inset-0 w-full h-full opacity-0">
                 <img src={chapter.image} alt={chapter.title} className="w-full h-full object-cover grayscale opacity-90 transition-all duration-1000" />
@@ -213,7 +220,7 @@ export function ModernNarrative() {
       </div>
 
       {/* ── EXECUTIVE TEAM ── */}
-      <div className="border-t border-white/5 relative z-10 bg-[#060606]">
+      <div className="border-t border-white/5 relative z-10 bg-bg-base/50">
         <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12">
             <div className="max-w-xs">
@@ -224,7 +231,7 @@ export function ModernNarrative() {
             <div className="flex-1 w-full grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {EXECUTIVE_TEAM.map((member) => (
                 <div key={member.name} className="flex flex-col group">
-                  <div className="relative aspect-4/5 w-full rounded-3xl overflow-hidden mb-6 bg-[#111] border border-white/5">
+                  <div className="relative aspect-4/5 w-full rounded-3xl overflow-hidden mb-6 bg-bg-surface border border-white/5">
                     <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale opacity-70 group-hover:scale-105 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" />
                   </div>
                   <span className="text-xs md:text-sm font-black text-white uppercase tracking-tight mb-1">{member.name}</span>

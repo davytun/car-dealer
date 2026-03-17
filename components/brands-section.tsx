@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Globe, Calendar, Database, ArrowRight } from "lucide-react";
+import ShapeGrid from "@/components/ui/shape-grid";
 
 const BRANDS = [
   { 
@@ -71,7 +72,20 @@ export function BrandsSection() {
   const [selectedBrand, setSelectedBrand] = useState<any>(null);
 
   return (
-    <section className="py-24 md:py-48 bg-[#020202] border-t border-white/5 relative overflow-hidden">
+    <section className="py-24 md:py-48 bg-bg-base border-t border-white/5 relative overflow-hidden">
+      
+      {/* Background Shape Grid Texture */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+        <ShapeGrid 
+          speed={0.4}
+          squareSize={60}
+          direction='diagonal'
+          borderColor='rgba(255,255,255,0.2)'
+          hoverFillColor='rgba(255,255,255,0.1)'
+          shape='circle'
+          hoverTrailAmount={10}
+        />
+      </div>
       
       {/* Cinematic Background Transitions */}
       <AnimatePresence>
@@ -89,7 +103,7 @@ export function BrandsSection() {
               alt="" 
               className="w-full h-full object-cover grayscale blur-[20px] scale-110"
             />
-            <div className="absolute inset-0 bg-linear-to-b from-[#020202] via-transparent to-[#020202]" />
+            <div className="absolute inset-0 bg-linear-to-b from-bg-base via-transparent to-bg-base" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -118,16 +132,19 @@ export function BrandsSection() {
             <motion.button
               key={brand.id}
               onClick={() => setSelectedBrand(brand)}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: -8, backgroundColor: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.3)" }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="group relative h-32 md:h-48 bg-white/2 border border-white/5 rounded-2xl p-4 md:p-6 flex flex-col items-center justify-center transition-all duration-700 hover:bg-white/5 hover:border-white/20 overflow-hidden"
+              className="group relative h-32 md:h-48 bg-white/3 border border-white/10 rounded-3xl p-4 md:p-6 flex flex-col items-center justify-center transition-all duration-500 overflow-hidden shadow-2xl"
             >
+              {/* Subtle radial glow behind logo */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.05)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              
               <img 
                 src={brand.logo} 
                 alt={brand.name} 
-                className="w-12 h-12 md:w-20 md:h-20 object-contain opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000 grayscale group-hover:grayscale-0" 
+                className="w-12 h-12 md:w-20 md:h-20 object-contain opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 brightness-110" 
               />
               
               <div className="absolute bottom-4 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
@@ -167,7 +184,7 @@ export function BrandsSection() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 200 }}
-              className="fixed bottom-0 left-0 right-0 h-[85vh] bg-[#0A0A0A] border-t border-white/10 z-101 rounded-t-[4rem] overflow-hidden shadow-2xl"
+              className="fixed bottom-0 left-0 right-0 h-[85vh] bg-bg-surface border-t border-white/10 z-101 rounded-t-[4rem] overflow-hidden shadow-2xl"
             >
               <div className="h-full flex flex-col">
                 {/* Modal Header */}
@@ -197,7 +214,7 @@ export function BrandsSection() {
                           alt={selectedBrand.name} 
                           className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105" 
                         />
-                        <div className="absolute inset-0 bg-linear-to-t from-[#0A0A0A] to-transparent opacity-60" />
+                        <div className="absolute inset-0 bg-linear-to-t from-bg-surface to-transparent opacity-60" />
                       </div>
                       
                       <div className="space-y-6">
