@@ -129,7 +129,6 @@ export function HeroAnimation() {
     console.log("Navigating to category:", catName);
     // Simulation of navigation delay
     setTimeout(() => {
-      alert(`Transitioning to ${catName} Showroom...`);
       setIsNavigating(false);
     }, 1500);
   };
@@ -268,7 +267,7 @@ export function HeroAnimation() {
           <div className="flex flex-col gap-10">
             <div className="flex items-center justify-center gap-6">
               <div className="h-px w-12 bg-white/10" />
-              <span className="text-[9px] tracking-[1em] text-white/20 uppercase font-black">Browse Categories</span>
+              <span className="text-[11px] tracking-[0.8em] text-white/30 uppercase font-bold">Browse Categories</span>
               <div className="h-px w-12 bg-white/10" />
             </div>
 
