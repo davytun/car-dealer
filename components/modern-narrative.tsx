@@ -127,8 +127,32 @@ export function ModernNarrative() {
         </p>
       </div>
 
-      {/* ── PINNED SCROLL ── */}
-      <div ref={sectionRef} className="h-screen w-full relative flex flex-col justify-center overflow-hidden">
+      {/* ── MOBILE LIST (Simple Cards) ── */}
+      <div className="md:hidden px-8 py-20 pb-32 flex flex-col gap-24">
+        {CHAPTERS.map((chapter, idx) => (
+          <div key={chapter.id} className="flex flex-col gap-8">
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-white/5 bg-[#111] shadow-2xl">
+              <img src={chapter.image} alt={chapter.title} className="w-full h-full object-cover grayscale opacity-80" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
+              <div className="absolute bottom-6 left-6">
+                <h3 className="text-xl font-black text-white uppercase tracking-tighter">{chapter.title}</h3>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-8 items-start">
+              <p className="text-white/60 text-[10px] leading-loose font-medium uppercase tracking-[0.2em]">
+                {chapter.description}
+              </p>
+              <button className="px-10 py-4 bg-white/5 border border-white/10 rounded-xl text-white font-black uppercase tracking-widest text-[9px] transition-colors hover:bg-white/10">
+                {chapter.tag}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── PINNED SCROLL (Desktop Only) ── */}
+      <div ref={sectionRef} className="hidden md:flex h-screen w-full relative flex-col justify-center overflow-hidden">
         
         {/* Cinematic atmospheric glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-white/5 rounded-full blur-[100px] pointer-events-none" />
@@ -149,13 +173,8 @@ export function ModernNarrative() {
                 />
 
                 <div className="flex flex-col md:flex-col items-center md:items-start gap-4 md:gap-0">
-                  {CHAPTERS.map((chapter, idx) => (
+                  {CHAPTERS.map((chapter) => (
                     <div key={chapter.id} className="nav-item md:h-16 flex items-center md:pl-8 whitespace-nowrap">
-                        {/* Mobile Counter (Visible only on mobile) */}
-                        <div className="flex md:hidden items-center gap-4">
-                           <span className="text-[12px] font-black text-white/20 italic tracking-tighter">PHASE</span>
-                           <span className="text-xl font-black text-white tracking-widest">0{idx + 1} <span className="text-white/20">/</span> 03</span>
-                        </div>
                         {/* Desktop Label (Hidden on mobile) */}
                         <span className="hidden md:block text-xl font-black uppercase tracking-tighter">{chapter.title}</span>
                     </div>
