@@ -1,119 +1,146 @@
 "use client"
 
 import Link from "next/link"
-import { MoveRight, Phone, MapPin } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ArrowUp, MoveRight, Phone, MapPin, Instagram, Facebook, Twitter, Youtube, Mail } from "lucide-react"
+import { MagneticButton } from "@/components/magnetic-button"
+import { motion } from "framer-motion"
+
+const NAV_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Listing", href: "/listing" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
+]
+
+const SOCIALS = [
+  { label: "Instagram", href: "#", icon: Instagram },
+  { label: "Facebook", href: "#", icon: Facebook },
+  { label: "X / Twitter", href: "#", icon: Twitter },
+  { label: "YouTube", href: "#", icon: Youtube },
+]
 
 export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   return (
-    <footer className="border-t border-white/5 bg-bg-base px-6 py-32">
+    <footer className="relative bg-bg-base border-t border-white/5 pt-20 pb-10 px-6 overflow-hidden">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-32 grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-4">
-          <div className="lg:col-span-1">
+        
+        {/* ── TOP SECTION: BRAND & NEWSLETTER ────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16 items-start">
+          
+          {/* Brand Identity */}
+          <div className="lg:col-span-5">
             <Link
               href="/"
-              className="mb-6 block font-serif text-3xl tracking-tighter text-white italic"
+              className="mb-8 block font-serif text-[clamp(2rem,5vw,3.5rem)] tracking-tight text-white uppercase italic leading-none"
             >
               IGNITE
             </Link>
-            <p className="body-md mb-8 max-w-sm text-text-secondary">
-              Ignite Luxury is redefining the automotive marketplace for
-              discerning buyers. Our platform combines a curated inventory with
-              expert guidance.
+            <p className="text-[14px] leading-loose text-text-secondary max-w-md mb-12 uppercase tracking-widest font-bold opacity-60">
+              Redefining the automotive acquisition experience for the discerning Nigerian collector. 
+              Archive. Verification. Luxury.
             </p>
-            <div className="space-y-4">
-              <div className="body-md flex items-start gap-4 text-text-secondary">
-                <Phone size={18} className="text-gold-vivid mt-1 shrink-0" />
-                <span>+234 707 719 5098</span>
+            
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <div className="h-10 w-10 flex items-center justify-center rounded-full border border-white/5 bg-white/2 group-hover:bg-white group-hover:text-black transition-all">
+                  <Phone size={14} strokeWidth={1.5} />
+                </div>
+                <span className="mono-md text-[11px] text-white/40 group-hover:text-white transition-colors">+234 707 719 5098</span>
               </div>
-              <div className="body-md flex items-start gap-4 text-text-secondary">
-                <MapPin size={18} className="text-gold-vivid mt-1 shrink-0" />
-                <span>
-                  Abeokuta, Ogun State,
-                  <br /> Nigeria
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <div className="h-10 w-10 flex items-center justify-center rounded-full border border-white/5 bg-white/2 group-hover:bg-white group-hover:text-black transition-all">
+                  <MapPin size={14} strokeWidth={1.5} />
+                </div>
+                <span className="mono-md text-[11px] text-white/40 group-hover:text-white transition-colors leading-relaxed uppercase">
+                  Altair Attic Limited, Abeokuta, Nigeria
                 </span>
               </div>
             </div>
           </div>
 
-          <div>
-            <span className="mono-md text-gold-vivid mb-8 block">
-              Quick Links
-            </span>
-            <ul className="space-y-4">
-              {[
-                { label: "Home", href: "/" },
-                { label: "About Us", href: "#about" },
-                { label: "Inventory & Listings", href: "#listing" },
-                { label: "Financing & Tools", href: "#financing" },
-                { label: "Blog & Insights", href: "#blog" },
-                { label: "Contact Us", href: "#contact" },
-              ].map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="body-md hover:text-gold-vivid text-text-secondary transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Navigation Links */}
+          <div className="lg:col-span-3 grid grid-cols-2 lg:grid-cols-1 gap-12">
+            <div>
+               <span className="mono-md text-white/10 mb-8 block font-black tracking-[0.4em] uppercase text-[9px]">Navigation</span>
+               <ul className="space-y-4">
+                 {NAV_LINKS.map((link) => (
+                   <li key={link.label}>
+                     <Link
+                       href={link.href}
+                       className="text-xs font-bold tracking-[0.2em] text-white/40 hover:text-white transition-colors uppercase"
+                     >
+                       {link.label}
+                     </Link>
+                   </li>
+                 ))}
+               </ul>
+            </div>
           </div>
 
-          <div>
-            <span className="mono-md text-gold-vivid mb-8 block">
-              Opening Hours
-            </span>
-            <ul className="body-md space-y-4 text-text-secondary">
-              <li>Monday-Friday</li>
-              <li className="text-white">8:00 AM - 8:00 PM</li>
-              <li className="pt-4">Saturday & Sunday</li>
-              <li className="text-white/40">Closed</li>
-            </ul>
-          </div>
-
-          <div>
-            <span className="mono-md text-gold-vivid mb-8 block">
-              Newsletter
-            </span>
-            <p className="body-md mb-6 text-text-secondary">
-              Get the latest car deals, tips & updates straight to your inbox.
+          {/* Newsletter / Join the Archive */}
+          <div className="lg:col-span-4">
+            <span className="mono-md text-white/10 mb-8 block font-black tracking-[0.4em] uppercase text-[9px]">Newsletter</span>
+            <p className="text-[11px] text-text-secondary mb-8 leading-loose uppercase tracking-widest">
+              Join our exclusive collective for archival insights and first access to new arrivals.
             </p>
-            <form className="relative" onSubmit={(e) => e.preventDefault()}>
+            
+            <form className="group relative" onSubmit={(e) => e.preventDefault()}>
               <input
                 type="email"
-                placeholder="Enter your email"
-                className="focus:border-gold-vivid/50 w-full rounded-full border border-white/10 bg-bg-surface py-4 pr-16 pl-6 text-sm text-white transition-colors focus:outline-hidden"
+                placeholder="ENTER EMAIL ADDRESS"
+                className="w-full bg-white/2 border border-white/5 rounded-full py-5 px-8 text-[9px] text-white tracking-[0.3em] font-black focus:border-white/20 focus:bg-white/5 focus:outline-hidden transition-all placeholder:text-white/20"
                 required
               />
-              <Button
+              <button 
                 type="submit"
-                size="icon"
-                className="bg-gold-vivid absolute top-1 right-1 bottom-1 h-auto rounded-full text-bg-base transition-colors hover:bg-white"
+                className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-24 rounded-full bg-white text-black text-[9px] font-black tracking-widest uppercase hover:bg-white/90 transition-all flex items-center justify-center gap-2"
               >
-                <MoveRight size={18} />
-              </Button>
+                Join
+              </button>
             </form>
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-8 border-t border-white/5 pt-12 md:flex-row">
-          <span className="mono-md text-[10px] text-white/40">
-            © 2026 Built with 💚 by Altair Attic.
-          </span>
-          <div className="flex gap-8">
-            {["Instagram", "Facebook", "LinkedIn", "YouTube"].map((tag) => (
-              <Link
-                href="#"
-                key={tag}
-                className="mono-md hover:text-gold-vivid text-[9px] tracking-widest text-white/30 uppercase transition-colors"
+        {/* ── BOTTOM SECTION: SOCIAL & LEGAL ─────────────────────────────── */}
+        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-12">
+          
+          {/* Social Links */}
+          <div className="flex items-center gap-12 order-2 md:order-1">
+            {SOCIALS.map((soc) => (
+              <Link 
+                key={soc.label} 
+                href={soc.href}
+                className="text-white/20 hover:text-white transition-all transform hover:-translate-y-1"
+                aria-label={soc.label}
               >
-                {tag}
+                <soc.icon size={18} strokeWidth={1.5} />
               </Link>
             ))}
           </div>
+
+          {/* Copyright */}
+          <div className="text-center md:text-left order-3 md:order-2">
+            <p className="mono-md text-[9px] text-white/20 uppercase tracking-[0.3em]">
+              &copy; 2026 Ignite Luxury Archive. Built with Precision.
+            </p>
+          </div>
+
+          {/* Back to Top */}
+          <div className="order-1 md:order-3">
+             <MagneticButton 
+               onClick={scrollToTop}
+               className="h-14 w-14 rounded-full border border-white/5 bg-white/2 text-white/30 hover:text-black transition-all"
+             >
+                <ArrowUp size={20} strokeWidth={1.2} />
+             </MagneticButton>
+          </div>
         </div>
+
       </div>
     </footer>
   )
