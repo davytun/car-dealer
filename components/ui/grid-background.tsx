@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"
 
 interface GridBackgroundProps {
-  className?: string;
-  gridColor?: string;
-  dotColor?: string;
-  maskSize?: string;
-  type?: "grid" | "dot";
+  className?: string
+  gridColor?: string
+  dotColor?: string
+  maskSize?: string
+  type?: "grid" | "dot"
 }
 
 export function GridBackground({
@@ -17,7 +17,7 @@ export function GridBackground({
 }: GridBackgroundProps) {
   return (
     <div
-      className={`absolute inset-0 pointer-events-none ${className}`}
+      className={`pointer-events-none absolute inset-0 ${className}`}
       style={{
         backgroundImage:
           type === "grid"
@@ -28,7 +28,7 @@ export function GridBackground({
         WebkitMaskImage: `radial-gradient(${maskSize}, black, transparent)`,
       }}
     />
-  );
+  )
 }
 
-export default GridBackground;
+export default GridBackground

@@ -1,33 +1,37 @@
-"use client";
+"use client"
 
-import { useRef, useState } from "react";
-import { motion, HTMLMotionProps } from "framer-motion";
+import { useRef, useState } from "react"
+import { motion, HTMLMotionProps } from "framer-motion"
 
 interface MagneticButtonProps extends HTMLMotionProps<"button"> {
-  children: React.ReactNode;
-  className?: string;
+  children: React.ReactNode
+  className?: string
 }
 
-export function MagneticButton({ children, className = "", ...props }: MagneticButtonProps) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+export function MagneticButton({
+  children,
+  className = "",
+  ...props
+}: MagneticButtonProps) {
+  const ref = useRef<HTMLButtonElement>(null)
+  const [position, setPosition] = useState({ x: 0, y: 0 })
 
   const handleMouse = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!ref.current) return;
-    
+    if (!ref.current) return
+
     // Get mouse position relative to the button center
-    const { clientX, clientY } = e;
-    const { height, width, left, top } = ref.current.getBoundingClientRect();
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
+    const { clientX, clientY } = e
+    const { height, width, left, top } = ref.current.getBoundingClientRect()
+    const middleX = clientX - (left + width / 2)
+    const middleY = clientY - (top + height / 2)
 
     // Damping factor - how much it pulls towards the mouse
-    setPosition({ x: middleX * 0.2, y: middleY * 0.2 });
-  };
+    setPosition({ x: middleX * 0.2, y: middleY * 0.2 })
+  }
 
   const reset = () => {
-    setPosition({ x: 0, y: 0 });
-  };
+    setPosition({ x: 0, y: 0 })
+  }
 
   return (
     <motion.button
@@ -36,20 +40,20 @@ export function MagneticButton({ children, className = "", ...props }: MagneticB
       onMouseLeave={reset}
       animate={{ x: position.x, y: position.y }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      className={`relative inline-flex items-center justify-center overflow-hidden interactive group ${className}`}
+      className={`interactive group relative inline-flex items-center justify-center overflow-hidden ${className}`}
       {...props}
     >
       {/* Background fill reveal on hover */}
-      <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] z-0 rounded-full" />
-      
+      <div className="absolute inset-0 z-0 translate-y-full rounded-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-y-0" />
+
       {/* Magnetic Text Content */}
-      <motion.span 
+      <motion.span
         animate={{ x: position.x * 0.5, y: position.y * 0.5 }}
         transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-        className="relative z-10 flex items-center group-hover:text-black transition-colors duration-300"
+        className="relative z-10 flex items-center transition-colors duration-300 group-hover:text-black"
       >
         {children}
       </motion.span>
     </motion.button>
-  );
+  )
 }

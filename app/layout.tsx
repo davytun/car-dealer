@@ -1,26 +1,37 @@
-import localFont from "next/font/local";
+import localFont from "next/font/local"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
-import { Header } from "@/components/header";
-import { SmoothScroll } from "@/components/smooth-scroll";
-import { Metadata, Viewport } from "next";
+import { cn } from "@/lib/utils"
+import { Header } from "@/components/header"
+import { SmoothScroll } from "@/components/smooth-scroll"
+import { Metadata, Viewport } from "next"
+import { Footer } from "@/components/footer"
 
 export const viewport: Viewport = {
   themeColor: "#020617",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-};
+}
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://car-dealer-ten-rosy.vercel.app/"),
   title: {
     default: "Ignite Luxury | Curated Premium Automobiles",
-    template: "%s | Ignite Luxury"
+    template: "%s | Ignite Luxury",
   },
-  description: "Experience the pinnacle of automotive excellence. Browse our curated archive of luxury and performance vehicles from the world's most prestigious manufacturers.",
-  keywords: ["luxury cars", "performance vehicles", "supercars", "premium inventory", "ignite luxury", "exotic cars", "automotive archive"],
+  description:
+    "Experience the pinnacle of automotive excellence. Browse our curated archive of luxury and performance vehicles from the world's most prestigious manufacturers.",
+  keywords: [
+    "luxury cars",
+    "performance vehicles",
+    "supercars",
+    "premium inventory",
+    "ignite luxury",
+    "exotic cars",
+    "automotive archive",
+  ],
   authors: [{ name: "Ignite Luxury Team" }],
   creator: "Ignite Luxury",
   publisher: "Ignite Luxury",
@@ -34,7 +45,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://car-dealer-ten-rosy.vercel.app/",
     title: "Ignite Luxury | Curated Premium Automobiles",
-    description: "Experience the pinnacle of automotive excellence. Browse our curated archive of luxury and performance vehicles.",
+    description:
+      "Experience the pinnacle of automotive excellence. Browse our curated archive of luxury and performance vehicles.",
     siteName: "Ignite Luxury",
     images: [
       {
@@ -71,7 +83,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://car-dealer-ten-rosy.vercel.app/",
   },
-};
+}
 
 const monument = localFont({
   src: [
@@ -97,7 +109,7 @@ const monument = localFont({
     },
   ],
   variable: "--font-sans",
-});
+})
 
 const monumentMono = localFont({
   src: [
@@ -108,7 +120,7 @@ const monumentMono = localFont({
     },
   ],
   variable: "--font-mono",
-});
+})
 
 export default function RootLayout({
   children,
@@ -119,15 +131,23 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased dark", monument.variable, monumentMono.variable, "font-sans")}
+      className={cn(
+        "dark antialiased",
+        monument.variable,
+        monumentMono.variable,
+        "font-sans"
+      )}
     >
       <body>
         <SmoothScroll>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+          >
             <Header />
-            <main className="min-h-screen pt-20">
-              {children}
-            </main>
+            <main className="min-h-screen pt-20">{children}</main>
+            <Footer />
           </ThemeProvider>
         </SmoothScroll>
       </body>

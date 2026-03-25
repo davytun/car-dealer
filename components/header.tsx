@@ -8,7 +8,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion"
-import { Search, AlignJustify, ArrowRight } from "lucide-react"
+import { Search, ArrowRight } from "lucide-react"
 
 // ── Typed easing ──────────────────────────────────────────────────────
 const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1]
@@ -16,10 +16,10 @@ const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1]
 // ── Nav items ─────────────────────────────────────────────────────────
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "About", href: "#about" },
-  { label: "Listing", href: "#listing" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/about" },
+  { label: "Listing", href: "/listing" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ]
 
 // ── Panel variants ────────────────────────────────────────────────────
@@ -128,13 +128,12 @@ function Hamburger({ onClick }: { onClick: () => void }) {
 }
 
 // ── Magnetic nav item ──────────────────────────────────────────────────
-function PanelNavItem({
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function _PanelNavItem({
   item,
-  index,
   onClose,
 }: {
   item: { label: string; href: string }
-  index: number
   onClose: () => void
 }) {
   const mx = useMotionValue(0)
@@ -242,7 +241,7 @@ export function Header() {
                 </AnimIconBtn>
                 <a
                   href="#contact"
-                  className="ml-2 hidden border-[0.5px] border-white/20 px-6 py-[8px] font-sans text-[10px] font-bold tracking-[0.2em] text-white bg-transparent backdrop-blur-sm uppercase transition-all duration-300 hover:bg-white hover:text-black sm:block rounded-full"
+                  className="ml-2 hidden rounded-full border-[0.5px] border-white/20 bg-transparent px-6 py-[8px] font-sans text-[10px] font-bold tracking-[0.2em] text-white uppercase backdrop-blur-sm transition-all duration-300 hover:bg-white hover:text-black sm:block"
                 >
                   Contact
                 </a>
@@ -297,7 +296,7 @@ export function Header() {
                 </AnimIconBtn>
                 <a
                   href="#contact"
-                  className="ml-1 hidden border-[0.5px] border-white/20 px-5 py-[7px] font-sans text-[10px] font-bold tracking-[0.2em] text-white bg-transparent uppercase transition-all duration-300 hover:bg-white hover:text-black sm:block rounded-full"
+                  className="ml-1 hidden rounded-full border-[0.5px] border-white/20 bg-transparent px-5 py-[7px] font-sans text-[10px] font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-white hover:text-black sm:block"
                 >
                   Contact
                 </a>
@@ -387,25 +386,25 @@ export function Header() {
                 exit="exit"
                 className="flex-1 overflow-y-auto px-8 py-4"
               >
-                  <div className="flex flex-col gap-10">
-                    <ul className="flex flex-col gap-3">
-                      {navItems.map((item) => (
-                        <motion.li
-                          key={item.label}
-                          variants={itemVariants}
-                          className="flex items-center group"
+                <div className="flex flex-col gap-10">
+                  <ul className="flex flex-col gap-3">
+                    {navItems.map((item) => (
+                      <motion.li
+                        key={item.label}
+                        variants={itemVariants}
+                        className="group flex items-center"
+                      >
+                        <Link
+                          href={item.href}
+                          className="inline-block font-serif text-[40px] tracking-tighter text-text-primary/70 italic transition-all duration-500 hover:translate-x-4 hover:text-text-primary md:text-[64px]"
+                          onClick={() => setIsOpen(false)}
                         >
-                          <Link
-                            href={item.href}
-                            className="font-serif text-[40px] md:text-[64px] text-text-primary/70 italic hover:text-text-primary transition-all duration-500 tracking-tighter hover:translate-x-4 inline-block"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            {item.label}
-                          </Link>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
+                          {item.label}
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
               </motion.ul>
 
               {/* Footer CTA */}
@@ -418,7 +417,7 @@ export function Header() {
                   href="#contact"
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex w-full items-center justify-center gap-3 border-[0.5px] border-white/20 bg-transparent text-white rounded-full py-4 font-sans text-[10px] font-bold tracking-[0.16em] uppercase transition-all duration-500 hover:bg-white hover:text-black"
+                  className="flex w-full items-center justify-center gap-3 rounded-full border-[0.5px] border-white/20 bg-transparent py-4 font-sans text-[10px] font-bold tracking-[0.16em] text-white uppercase transition-all duration-500 hover:bg-white hover:text-black"
                 >
                   Contact
                   <ArrowRight size={14} strokeWidth={1.5} />
