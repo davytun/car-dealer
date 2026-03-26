@@ -182,7 +182,6 @@ export function ModernNarrative() {
         maskSize="ellipse 40% 80% at 0% 50%"
       />
 
-      {/* ── INTRO HEADER ── */}
       <div className="mx-auto flex max-w-7xl flex-col items-end justify-between gap-12 px-6 py-20 text-center md:flex-row md:py-32 md:text-left">
         <div className="max-w-3xl">
           <div className="mb-8 flex items-center justify-center gap-4 md:justify-start">
@@ -207,7 +206,6 @@ export function ModernNarrative() {
         </p>
       </div>
 
-      {/* ── MOBILE LIST (Simple Cards) ── */}
       <div className="flex flex-col gap-24 px-8 py-20 pb-32 md:hidden">
         {CHAPTERS.map((chapter) => (
           <div key={chapter.id} className="flex flex-col gap-8">
@@ -238,22 +236,17 @@ export function ModernNarrative() {
         ))}
       </div>
 
-      {/* ── PINNED SCROLL (Desktop Only) ── */}
       <div
         ref={sectionRef}
         className="relative hidden h-screen w-full flex-col justify-center overflow-hidden md:flex"
       >
-        {/* Cinematic atmospheric glow */}
         <div className="pointer-events-none absolute top-1/2 left-1/2 h-[60vw] max-h-[800px] w-[60vw] max-w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/5 blur-[100px]" />
 
         <div className="relative z-10 mx-auto flex h-[85vh] w-full max-w-7xl flex-col items-center justify-between gap-8 px-6 md:h-[60vh] md:flex-row">
-          {/* LEFT: Nav List (Desktop labels or Mobile Counter) */}
           <div className="relative flex w-full flex-col items-center justify-center md:w-[25%] md:items-start md:pl-8">
-            {/* Nav Track Line (hidden on mobile) */}
             <div className="absolute top-1/2 left-0 hidden h-[200px] w-px -translate-y-1/2 bg-white/10 md:block md:h-[300px]" />
 
             <div className="relative flex h-12 w-full flex-col items-center justify-center md:h-[192px] md:items-start">
-              {/* Nav Dot (hidden on mobile) */}
               <div
                 ref={dotRef}
                 className="absolute top-[28px] left-[-4px] hidden h-2 w-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] md:block"
@@ -275,7 +268,6 @@ export function ModernNarrative() {
             </div>
           </div>
 
-          {/* CENTER: Image */}
           <div className="relative h-[40vh] w-full overflow-hidden rounded-3xl bg-bg-surface shadow-[0_40px_80px_rgba(0,0,0,0.5)] md:h-full md:w-[45%]">
             {CHAPTERS.map((chapter) => (
               <div
@@ -293,7 +285,6 @@ export function ModernNarrative() {
             ))}
           </div>
 
-          {/* RIGHT: Text & Button */}
           <div className="relative flex h-40 w-full flex-col items-center justify-center md:h-full md:w-[25%] md:items-start">
             {CHAPTERS.map((chapter) => (
               <div
@@ -314,7 +305,6 @@ export function ModernNarrative() {
         </div>
       </div>
 
-      {/* ── EXECUTIVE TEAM ── */}
       <div className="relative z-10 border-t border-white/5 bg-bg-base/50">
         <div className="mx-auto max-w-7xl px-6 py-16 md:py-24">
           <div className="flex flex-col items-start justify-between gap-12 md:flex-row md:items-center">

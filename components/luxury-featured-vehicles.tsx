@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
@@ -12,17 +12,46 @@ import {
   Loader2,
   Heart,
 } from "lucide-react"
+import { getCars, Car, generateCarSlug, getAssetUrl } from "@/lib/api"
 import { InventorySearch } from "./inventory-search"
 import GridBackground from "@/components/ui/grid-background"
-import { LUXURY_INVENTORY } from "@/lib/data/inventory"
 
-// ── MAIN COMPONENT ──────────────────────────────────────────────
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    maximumFractionDigits: 0,
+  }).format(price)
+}
+
+const formatMileage = (miles: number | string | undefined) => {
+  if (!miles) return "0 miles"
+  if (typeof miles === "string") return miles.includes("miles") ? miles : `${miles} miles`
+  return `${miles.toLocaleString()} miles`
+}
+
+interface LuxuryMappedVehicle {
+  id: number
+  slug: string
+  name: string
+  brand: string
+  price: string
+  monthlyPrice: string
+  mileage: string
+  year: string
+  fuel: string
+  transmission: string
+  image: string
+  badge: string
+  imagesCount: number
+  videoCount: number
+}
 
 const VehicleCard = ({
   vehicle,
   index,
 }: {
-  vehicle: (typeof LUXURY_INVENTORY)[0]
+  vehicle: LuxuryMappedVehicle
   index: number
 }) => {
   const [isLiked, setIsLiked] = useState(false)
@@ -37,7 +66,6 @@ const VehicleCard = ({
       onClick={() => router.push(`/listing/${vehicle.slug}`)}
       className="group relative cursor-pointer overflow-hidden rounded-4xl border border-white/5 bg-bg-surface/40 backdrop-blur-xl transition-all duration-700 hover:border-white/30 hover:shadow-[0_32px_64px_rgba(0,0,0,0.8),0_0_40px_rgba(255,255,255,0.05)]"
     >
-      {/* ── IMAGE SECTION ────────────────────────────────────────── */}
       <div className="relative m-3 aspect-4/3 overflow-hidden rounded-3xl">
         <Image
           src={vehicle.image}
@@ -90,7 +118,6 @@ const VehicleCard = ({
         <div className="absolute bottom-0 left-0 z-30 h-1 w-0 bg-white/40 transition-all duration-1000 group-hover:w-full" />
       </div>
 
-      {/* ── CONTENT SECTION ──────────────────────────────────────── */}
       <div className="px-7 pt-2 pb-8">
         <h3 className="mb-4 text-xl font-black tracking-tight text-white uppercase transition-transform group-hover:translate-x-1">
           {vehicle.name}
@@ -164,8 +191,44 @@ export function LuxuryFeaturedVehicles() {
     transmission: "All",
   })
 
-  const filteredInventory = React.useMemo(() => {
-    return LUXURY_INVENTORY.filter((vehicle) => {
+  const [items, setItems] = useState<LuxuryMappedVehicle[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadFeatured() {
+      setIsLoading(true)
+      try {
+        const response = await getCars({ featured: 1 })
+        if (response.success) {
+          const mapped = response.data.map((car: Car) => ({
+            id: car.id,
+            slug: generateCarSlug(car),
+            name: `${car.make} ${car.model}`,
+            brand: car.make.toUpperCase(),
+            price: formatPrice(car.price),
+            monthlyPrice: formatPrice(Math.round(car.price / 60)) + "/mo",
+            mileage: formatMileage(car.mileage),
+            year: car.year.toString(),
+            fuel: car.fuel_type || "Petrol",
+            transmission: car.transmission || "Automatic",
+            image: getAssetUrl(car.primary_image || car.image),
+            badge: "Featured",
+            imagesCount: car.images?.length || 0,
+            videoCount: 0
+          }))
+          setItems(mapped)
+        }
+      } catch (err) {
+        console.error("Failed to fetch featured cars:", err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadFeatured()
+  }, [])
+
+  const filteredInventory = useMemo(() => {
+    return items.filter((vehicle) => {
       const matchesBrand =
         activeFilters.brand === "All Brands" ||
         vehicle.brand.toUpperCase() === activeFilters.brand.toUpperCase()
@@ -176,7 +239,7 @@ export function LuxuryFeaturedVehicles() {
           .includes(activeFilters.transmission.toLowerCase())
       return matchesBrand && matchesTransmission
     })
-  }, [activeFilters])
+  }, [items, activeFilters])
 
   const handleExplore = (filters: Record<string, string>) => {
     const params = new URLSearchParams()
@@ -186,7 +249,6 @@ export function LuxuryFeaturedVehicles() {
 
   return (
     <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-bg-base px-4 py-32 md:px-8">
-      {/* ── BACKGROUND AMBIENCE ──────────────────────────────────── */}
       <div className="pointer-events-none absolute inset-0 z-0 opacity-20">
         <GridBackground
           type="dot"
@@ -197,7 +259,6 @@ export function LuxuryFeaturedVehicles() {
       </div>
 
       <div className="relative z-10 flex w-full max-w-7xl flex-col gap-6 px-8">
-        {/* ── HEADER ──────────────────────────────────────────────── */}
         <div className="mb-4 flex flex-col items-end justify-between gap-8 md:flex-row">
           <div>
             <span className="mb-4 block text-[10px] font-black tracking-[0.5em] text-white/30 uppercase">
@@ -215,7 +276,6 @@ export function LuxuryFeaturedVehicles() {
           </p>
         </div>
 
-        {/* ── GRANULAR FILTERS ──────────────────────────────────────── */}
         <div className="mb-12">
           <InventorySearch
             onFilterChange={setActiveFilters}
@@ -223,9 +283,12 @@ export function LuxuryFeaturedVehicles() {
           />
         </div>
 
-        {/* ── MULTI-VEHICLE GRID ────────────────────────────────────── */}
         <div className="grid min-h-[400px] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredInventory.length > 0 ? (
+          {isLoading ? (
+            Array(4).fill(0).map((_, i) => (
+              <div key={i} className="h-[400px] w-full animate-pulse rounded-4xl bg-white/5" />
+            ))
+          ) : filteredInventory.length > 0 ? (
             filteredInventory
               .slice(0, 4)
               .map((v, idx) => (
@@ -243,7 +306,6 @@ export function LuxuryFeaturedVehicles() {
           )}
         </div>
 
-        {/* ── VIEW ALL CTA ─────────────────────────────────────────── */}
         <div className="mt-16 flex justify-center">
           <motion.button
             onClick={() => handleExplore(activeFilters)}

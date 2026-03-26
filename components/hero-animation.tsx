@@ -6,14 +6,13 @@ import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import LightRays from "@/components/ui/light-rays"
 
-// ── MAIN HERO COMPONENT ──────────────────────────────────────────
+
 
 export function HeroAnimation() {
   const router = useRouter()
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-bg-base pt-24 pb-12">
-      {/* ── BACKGROUND LAYER ───────────────────────────────────────── */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -24,9 +23,7 @@ export function HeroAnimation() {
         >
           <source src="/video/hero2.mp4" type="video/mp4" />
         </video>
-        {/* Cinematic Overlay (Subtle) */}
         <div className="pointer-events-none absolute inset-0 bg-black/30" />
-        {/* Light Rays Effect */}
         <div className="absolute inset-0 z-10">
           <LightRays
             raysOrigin="top-center"
@@ -44,9 +41,7 @@ export function HeroAnimation() {
         </div>
       </div>
 
-      {/* ── CONTENT AREA ───────────────────────────────────────────── */}
       <div className="relative z-20 flex w-full max-w-7xl flex-col items-center px-6 md:px-12">
-        {/* Editorial Heading */}
         <div className="mb-16 space-y-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -77,7 +72,6 @@ export function HeroAnimation() {
           </motion.p>
         </div>
 
-        {/* ── SIMPLE CTA INSTEAD OF SEARCH ────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -86,7 +80,6 @@ export function HeroAnimation() {
         >
           <button
             onClick={() => {
-              // Scroll to the features section or go to listing
               router.push("/listing")
             }}
             className="group flex h-16 items-center justify-center gap-4 rounded-full bg-white px-12 text-xs font-black tracking-[0.3em] text-black uppercase shadow-[0_0_40px_rgba(255,255,255,0.1)] transition-all hover:bg-[#F0F0F0] active:scale-95"

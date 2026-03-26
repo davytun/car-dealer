@@ -52,7 +52,6 @@ const STATS = [
   { label: "Verified Dealers", value: "3.5k+" },
 ]
 
-// Duplicate for seamless loop
 const MARQUEE_ITEMS = [...REVIEWS, ...REVIEWS, ...REVIEWS]
 
 export function ClientsReviews() {
@@ -64,7 +63,6 @@ export function ClientsReviews() {
     () => {
       if (!trackRef.current) return
 
-      // GSAP Marquee Loop
       marqueeTween.current = gsap.to(trackRef.current, {
         xPercent: -33.333,
         ease: "none",
@@ -83,7 +81,6 @@ export function ClientsReviews() {
       ref={containerRef}
       className="relative z-10 overflow-hidden border-b border-white/5 bg-bg-base py-24 md:py-40"
     >
-      {/* Cinematic Background Elements */}
       <div className="pointer-events-none absolute inset-0">
         <GridBackground
           type="grid"
@@ -120,7 +117,6 @@ export function ClientsReviews() {
           </div>
         </div>
 
-        {/* Marquee Container */}
         <div
           className="group/marquee relative flex cursor-crosshair overflow-hidden"
           onMouseEnter={handleMouseEnter}
@@ -132,7 +128,6 @@ export function ClientsReviews() {
                 key={i}
                 className="group/card relative flex aspect-4/3 w-[260px] shrink-0 flex-col justify-between overflow-hidden rounded-[2.5rem] border border-white/5 bg-bg-surface p-6 shadow-2xl transition-all duration-1000 hover:scale-[1.02] hover:border-white/20 md:w-[380px] md:p-10"
               >
-                {/* Emotional Texture & Background */}
                 <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-1000 group-hover/card:opacity-[0.15]">
                   <Image
                     src={review.bg}
@@ -142,7 +137,6 @@ export function ClientsReviews() {
                   />
                 </div>
 
-                {/* Inner Glow overlays */}
                 <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-white/3 to-transparent" />
                 <div className="absolute -inset-px bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.05)_0%,transparent_50%)] opacity-0 transition-opacity duration-1000 group-hover/card:opacity-100" />
 
@@ -182,19 +176,16 @@ export function ClientsReviews() {
                   </div>
                 </div>
 
-                {/* Decorative Bloom Overlay */}
                 <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-white/5 opacity-0 blur-[60px] transition-opacity duration-1000 group-hover/card:opacity-100" />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Linear Gradient Fades */}
         <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-8 bg-linear-to-r from-bg-base via-bg-base/80 to-transparent md:w-64" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-8 bg-linear-to-l from-bg-base via-bg-base/80 to-transparent md:w-64" />
       </div>
 
-      {/* Company Stats Grid */}
       <div className="mx-auto mt-24 grid max-w-7xl grid-cols-2 gap-4 px-6 md:mt-32 md:gap-8 lg:grid-cols-4">
         {STATS.map((stat, i) => (
           <div
@@ -211,7 +202,6 @@ export function ClientsReviews() {
         ))}
       </div>
 
-      {/* Modern Scrolling Indicator */}
       <div className="mx-auto mt-20 flex max-w-7xl animate-in justify-center px-6 opacity-0 delay-500 duration-1000 fill-mode-forwards fade-in">
         <div className="flex items-center gap-4 opacity-10">
           <div className="h-px w-16 bg-white" />

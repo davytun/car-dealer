@@ -2,9 +2,10 @@
 
 import { motion } from "framer-motion"
 import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
 import { SmoothScroll } from "@/components/smooth-scroll"
-import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Linkedin, Youtube, ArrowUpRight } from "lucide-react"
+import { Phone, MapPin, Clock, Instagram, Facebook, Linkedin, Youtube, ArrowUpRight } from "lucide-react"
+import { ContactForm } from "@/components/contact/contact-form"
+import Link from "next/link"
 
 export default function ContactPage() {
   return (
@@ -124,6 +125,18 @@ export default function ContactPage() {
           </div>
         </section>
 
+        {/* ── CONTACT FORM SECTION ────────────────────────────────────────── */}
+        <section className="px-6 py-12 md:py-24 border-t border-white/5">
+          <div className="mx-auto max-w-4xl">
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl mb-4">Send a Message</h2>
+               <p className="text-text-secondary">Have a specific request? Drop us a line and we&apos;ll get back to you.</p>
+            </div>
+
+            <ContactForm />
+          </div>
+        </section>
+
         {/* ── MAP SECTION ──────────────────────────────────────────────────── */}
         <section className="px-6 py-12 pb-24 md:py-20 md:pb-40">
           <div className="mx-auto max-w-6xl">
@@ -145,13 +158,15 @@ export default function ContactPage() {
                   <h3 className="text-lg font-serif italic text-white md:text-xl">Interested in visiting our showroom?</h3>
                   <p className="text-sm text-text-secondary md:text-base">Walk-ins are welcome during business hours.</p>
                </div>
-               <a
-                  href="/listing"
-                  className="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-[10px] font-bold tracking-[0.2em] text-black uppercase transition-all hover:bg-white/90"
-                >
-                  View Inventory
-                  <ArrowUpRight size={14} />
-                </a>
+               <Link
+              href="/listing"
+              className="group flex items-center gap-3 text-[10px] font-black tracking-[0.2em] text-white/40 uppercase transition-colors hover:text-white"
+            >
+              BROWSE COLLECTION
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 transition-all group-hover:bg-white group-hover:text-black">
+                <ArrowUpRight size={14} strokeWidth={1.5} />
+              </div>
+            </Link>
             </div>
           </div>
         </section>

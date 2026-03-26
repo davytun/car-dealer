@@ -128,7 +128,6 @@ export function InventorySearch({
       ref={containerRef}
       className="relative z-40 mx-auto mb-12 w-full max-w-7xl px-4"
     >
-      {/* ── DESKTOP VIEW ────────────────────────────────────────── */}
       <div className="relative hidden md:block">
         <div className="flex items-center gap-2 rounded-full border border-white/10 bg-bg-surface/40 p-2 shadow-[0_24px_48px_rgba(0,0,0,0.6)] backdrop-blur-3xl md:p-3">
           <div className="flex flex-1 items-center px-4">
@@ -207,9 +206,7 @@ export function InventorySearch({
         </div>
       </div>
 
-      {/* ── MOBILE VIEW ─────────────────────────────────────────── */}
       <div className="flex flex-col gap-4 md:hidden">
-        {/* Mobile Trigger Pill */}
         <button
           onClick={() => setIsMobileDrawerOpen(true)}
           className="flex w-full items-center justify-between rounded-full border border-white/10 bg-bg-surface/60 p-4 shadow-lg backdrop-blur-3xl transition-all active:scale-95"
@@ -234,11 +231,9 @@ export function InventorySearch({
           </div>
         </button>
 
-        {/* Mobile Drawer */}
         <AnimatePresence>
           {isMobileDrawerOpen && (
             <div className="fixed inset-0 z-100 flex items-end justify-center">
-              {/* Overlay */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -247,7 +242,6 @@ export function InventorySearch({
                 className="absolute inset-0 bg-black/80 backdrop-blur-sm"
               />
 
-              {/* Drawer Content */}
               <motion.div
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
@@ -255,12 +249,10 @@ export function InventorySearch({
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
                 className="relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-[2.5rem] border-t border-white/10 bg-bg-elevated"
               >
-                {/* Drag Handle */}
                 <div className="flex w-full justify-center pt-4 pb-2">
                   <div className="h-1 w-12 rounded-full bg-white/10" />
                 </div>
 
-                {/* Header */}
                 <div className="flex items-center justify-between border-b border-white/5 px-8 py-6">
                   <h3 className="text-xl font-black tracking-tight text-white uppercase">
                     FILTERS
@@ -273,7 +265,6 @@ export function InventorySearch({
                   </button>
                 </div>
 
-                {/* Filters Content */}
                 <div className="custom-scrollbar flex-1 space-y-10 overflow-y-auto px-8 py-6 pb-32">
                   {FILTER_CATEGORIES.map((cat) => (
                     <div key={cat.id} className="space-y-4">
@@ -302,7 +293,6 @@ export function InventorySearch({
                   ))}
                 </div>
 
-                {/* Sticky Action Footer */}
                 <div className="absolute right-0 bottom-0 left-0 flex items-center gap-4 border-t border-white/5 bg-linear-to-t from-bg-elevated via-bg-elevated to-transparent p-8">
                   <button
                     onClick={clearFilters}

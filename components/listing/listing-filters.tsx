@@ -47,7 +47,7 @@ export function ListingFilters({
           placeholder="Search by model, specs or features..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full rounded-xl border border-white/10 bg-white/[0.02] py-3.5 pr-10 pl-12 text-sm text-white transition-all placeholder:text-white/30 focus:border-white/30 focus:bg-white/[0.04] focus:outline-none"
+          className="w-full rounded-xl border border-white/10 bg-white/2 py-3.5 pr-10 pl-12 text-sm text-white transition-all placeholder:text-white/30 focus:border-white/30 focus:bg-white/4 focus:outline-none"
         />
         {searchQuery && (
           <button
@@ -62,7 +62,7 @@ export function ListingFilters({
       {/* Filters Group */}
       <div className="flex items-center gap-3">
         {/* Advanced Filters Button (Placeholder for future) */}
-        <button className="flex hidden items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] px-5 py-3.5 text-xs font-bold tracking-widest text-white/70 uppercase transition-colors hover:bg-white/[0.06] sm:flex">
+        <button className="hidden items-center gap-2 rounded-xl border border-white/10 bg-white/2 px-5 py-3.5 text-xs font-bold tracking-widest text-white/70 uppercase transition-colors hover:bg-white/6 sm:flex">
           <SlidersHorizontal size={14} />
           Filters
         </button>
@@ -73,8 +73,8 @@ export function ListingFilters({
             onClick={() => setIsBrandDropdownOpen(!isBrandDropdownOpen)}
             className={`flex w-[200px] items-center justify-between rounded-xl border px-5 py-3.5 text-xs font-bold tracking-widest uppercase transition-colors ${
               isBrandDropdownOpen || selectedBrand !== "All"
-                ? "border-white/30 bg-white/[0.06] text-white"
-                : "border-white/10 bg-white/[0.02] text-white/70 hover:bg-white/[0.06]"
+                ? "border-white/30 bg-white/6 text-white"
+                : "border-white/10 bg-white/2 text-white/70 hover:bg-white/6"
             }`}
           >
             <span className="truncate">

@@ -1,9 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowUp, MoveRight, Phone, MapPin, Instagram, Facebook, Twitter, Youtube, Mail } from "lucide-react"
+import { ArrowUp, Phone, MapPin, Instagram, Facebook, Twitter, Youtube } from "lucide-react"
 import { MagneticButton } from "@/components/magnetic-button"
-import { motion } from "framer-motion"
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },

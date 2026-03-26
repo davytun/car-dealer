@@ -1,0 +1,133 @@
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  mainCategory: "Car Reviews" | "Maintenance Tips" | "Buying Guides" | "News";
+  excerpt: string;
+  author: string;
+  date: string;
+  image: string;
+  readTime: string;
+  tags: string[];
+}
+
+export const blogPosts: BlogPost[] = [
+  {
+    id: "1",
+    slug: "hybrid-vs-electric-cars",
+    title: "Hybrid vs. Electric Cars: Which One Should You Choose?",
+    category: "EXPERT REVIEW",
+    mainCategory: "Car Reviews",
+    excerpt: "Discover the key differences between hybrid and electric vehicles to help you decide which powertrain fits your lifestyle.",
+    author: "Admin",
+    date: "Aug. 21, 2025",
+    image: "/images/blog/hybrid_vs_electric.png",
+    readTime: "6 min read",
+    tags: ["Hybrid", "Electric", "Comparison"],
+  },
+  {
+    id: "2",
+    slug: "compact-suv-vs-full-size-suv",
+    title: "Compact SUV vs. Full-Size SUV: What's the Difference?",
+    category: "PERFORMANCE",
+    mainCategory: "Car Reviews",
+    excerpt: "An in-depth look at compact and full-size SUVs, comparing performance, space, and utility for modern drivers.",
+    author: "Admin",
+    date: "Aug. 21, 2025",
+    image: "/images/blog/suv_comparison.png",
+    readTime: "5 min read",
+    tags: ["SUV", "Compact", "Full-Size"],
+  },
+  {
+    id: "3",
+    slug: "sports-cars-vs-luxury-cars",
+    title: "Sports Cars vs. Luxury Cars: Finding Your Perfect Match",
+    category: "LUXURY",
+    mainCategory: "Buying Guides",
+    excerpt: "Should you prioritize adrenaline or comfort? We break down the choice between high-performance sports cars and refined luxury sedans.",
+    author: "Admin",
+    date: "Aug. 21, 2025",
+    image: "/images/blog/sports_vs_luxury.png",
+    readTime: "7 min read",
+    tags: ["Sports Cars", "Luxury", "Lifestyle"],
+  },
+  {
+    id: "4",
+    slug: "diesel-vs-gasoline-engines",
+    title: "Diesel vs. Gasoline Engines: Pros and Cons Explained",
+    category: "DESIGN",
+    mainCategory: "News",
+    excerpt: "A technical comparison of diesel and gasoline engines, focusing on efficiency, torque, and environmental impact.",
+    author: "Admin",
+    date: "Aug. 21, 2025",
+    image: "/images/blog/diesel_vs_gas.png",
+    readTime: "5 min read",
+    tags: ["Engine", "Diesel", "Gasoline"],
+  },
+  {
+    id: "5",
+    slug: "manual-vs-automatic-transmission",
+    title: "Manual vs. Automatic Transmission: Which is Better for You?",
+    category: "REVIEWS",
+    mainCategory: "Car Reviews",
+    excerpt: "The age-old debate continues. We evaluate the driving experience, maintenance, and efficiency of manual and automatic gearboxes.",
+    author: "Admin",
+    date: "Aug. 21, 2025",
+    image: "/images/blog/manual_vs_auto.png",
+    readTime: "4 min read",
+    tags: ["Transmission", "Manual", "Automatic"],
+  },
+  {
+    id: "6",
+    slug: "electric-vs-ice-cars",
+    title: "Electric vs. Internal Combustion Engine (ICE) Cars",
+    category: "TREND",
+    mainCategory: "News",
+    excerpt: "Exploring the transition from traditional combustion engines to electric powertrains and what it means for the future of motoring.",
+    author: "Admin",
+    date: "Aug. 21, 2025",
+    image: "/images/blog/ice_vs_ev.png",
+    readTime: "8 min read",
+    tags: ["EV", "ICE", "Future"],
+  },
+  {
+    id: "7",
+    slug: "luxury-suvs-vs-crossovers",
+    title: "Luxury SUVs vs. Crossovers: Which is Right for You?",
+    category: "MAINTENANCE",
+    mainCategory: "Buying Guides",
+    excerpt: "Distinguishing between luxury SUVs and crossovers, with a focus on ride quality, off-road capability, and city driving.",
+    author: "Admin",
+    date: "Aug. 21, 2025",
+    image: "/images/blog/luxury_suv_vs_crossover.png",
+    readTime: "6 min read",
+    tags: ["Luxury", "SUV", "Crossover"],
+  },
+  {
+    id: "8",
+    slug: "truck-vs-minivan",
+    title: "Truck vs. Minivan: Which is Better for Family Needs?",
+    category: "NEWS",
+    mainCategory: "Buying Guides",
+    excerpt: "Evaluating the practicality of modern pickup trucks against the versatility of minivans for family adventures.",
+    author: "Admin",
+    date: "Aug. 21, 2025",
+    image: "/images/blog/truck_vs_minivan.png",
+    readTime: "5 min read",
+    tags: ["Family", "Truck", "Minivan"],
+  },
+  {
+    id: "9",
+    slug: "tires-all-season-vs-summer-vs-winter",
+    title: "Tires: All-Season vs. Summer vs. Winter, What You Need to Know",
+    category: "TIPS",
+    mainCategory: "Maintenance Tips",
+    excerpt: "A comprehensive guide to choosing the right tires for your vehicle based on seasonal conditions and driving performance.",
+    author: "Admin",
+    date: "Aug. 21, 2025",
+    image: "/images/blog/tires.png",
+    readTime: "4 min read",
+    tags: ["Tires", "Maintenance", "Safety"],
+  },
+];

@@ -1,6 +1,5 @@
 "use client"
 
-import { useRef } from "react"
 import { motion } from "framer-motion"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -37,7 +36,6 @@ const TEAM = [
 ]
 
 export default function AboutPage() {
-  const containerRef = useRef<HTMLDivElement>(null)
 
   return (
     <SmoothScroll>

@@ -1,7 +1,8 @@
 "use client"
 
-import React, { useRef } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import {
   ArrowUpRight,
   Gauge,
@@ -10,102 +11,70 @@ import {
   Settings2,
   ArrowRight,
 } from "lucide-react"
+import { getCars, Car, generateCarSlug } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
 
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 0,
+  }).format(price)
+}
+
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP)
 }
 
-const vehicles = [
-  {
-    name: "Audi A6 Avant E-Tron",
-    image: "/card/card-1.jpg",
-    price: "62,860,000",
-    miles: "32,500",
-    year: "2022",
-    fuel: "EV",
-    transmission: "Manual",
-    tag: "Special",
-  },
-  {
-    name: "2024 Hyundai Elantra",
-    image: "/card/card-2.jpg",
-    price: "59,920,000",
-    miles: "89,300",
-    year: "2018",
-    fuel: "Benzin",
-    transmission: "Auto",
-    tag: "Great Price",
-  },
-  {
-    name: "Kia EV9 2024",
-    image: "/card/card-3.jpg",
-    price: "63,700,000",
-    miles: "76,400",
-    year: "2020",
-    fuel: "Diesel",
-    transmission: "Auto",
-    tag: "",
-  },
-  {
-    name: "Chevrolet Camaro 2020",
-    image: "/card/card-4.jpg",
-    price: "49,700,000",
-    miles: "45,800",
-    year: "2023",
-    fuel: "Benzin",
-    transmission: "Auto",
-    tag: "",
-  },
-  {
-    name: "Audi R8",
-    image: "/card/card-5.jpg",
-    price: "63,700,000",
-    miles: "97,200",
-    year: "2022",
-    fuel: "EV",
-    transmission: "Manual",
-    tag: "Special",
-  },
-  {
-    name: "Genesis Electrified G80",
-    image: "/card/card-6.jpg",
-    price: "34,860,000",
-    miles: "51,600",
-    year: "2021",
-    fuel: "Diesel",
-    transmission: "Auto",
-    tag: "Special",
-  },
-  {
-    name: "2015 Ford Mustang EcoBoost",
-    image: "/card/card-7.jpg",
-    price: "62,860,000",
-    miles: "84,500",
-    year: "2022",
-    fuel: "EV",
-    transmission: "Manual",
-    tag: "Special",
-  },
-  {
-    name: "Mercedes-AMG C-Class",
-    image: "/card/card-8.jpg",
-    price: "34,300,000",
-    miles: "84,500",
-    year: "2022",
-    fuel: "Benzin",
-    transmission: "Auto",
-    tag: "Great Price",
-  },
-]
+// Removed static vehicles array
+
+interface MappedVehicle {
+  name: string
+  slug: string
+  image: string
+  price: string
+  miles: string
+  year: string
+  fuel: string
+  transmission: string
+  tag: string
+}
 
 export function FeaturedVehicles() {
   const containerRef = useRef<HTMLElement>(null)
   const slideWrapperRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
+  const [vehicles, setVehicles] = useState<MappedVehicle[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchFeatured() {
+      setIsLoading(true)
+      try {
+        const response = await getCars({ featured: 1 })
+        if (response.success) {
+          const mapped = response.data.map((car: Car) => ({
+            name: `${car.make} ${car.model}`,
+            slug: generateCarSlug(car),
+            image: car.image || "/images/card/card-1.jpg",
+            price: formatPrice(car.price),
+            miles: car.mileage?.toString() || "0",
+            year: car.year.toString(),
+            fuel: car.fuel_type || "Petrol",
+            transmission: car.transmission || "Auto",
+            tag: car.status === "available" ? "Special" : (car.status || "Special"),
+          }))
+          setVehicles(mapped)
+        }
+      } catch (err) {
+        console.error("Failed to fetch featured vehicles:", err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchFeatured()
+  }, [])
 
   useGSAP(
     () => {
@@ -211,7 +180,11 @@ export function FeaturedVehicles() {
       {/* Horizontal Scroll Wrapper */}
       <div className="mt-56 flex h-[65vh] items-center md:mt-32">
         <div ref={slideWrapperRef} className="flex gap-6 px-6 md:px-[10vw]">
-          {vehicles.map((v, i) => {
+          {isLoading ? (
+             Array(4).fill(0).map((_, i) => (
+              <div key={i} className="h-full w-[85vw] animate-pulse rounded-2xl bg-white/5 md:w-[400px]" />
+            ))
+          ) : vehicles.map((v, i) => {
             return (
             <div
               key={`${v.name}-${i}`}
@@ -293,13 +266,12 @@ export function FeaturedVehicles() {
                     </span>
                     ${v.price}
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-10 w-10 rounded-full border-[0.5px] border-white/20 text-white shadow-[0_0_15px_rgba(255,255,255,0.05)] transition-all duration-500 group-hover:shadow-[0_0_25px_rgba(255,255,255,0.15)] hover:border-white hover:bg-white hover:text-black"
+                  <Link
+                    href={`/listing/${v.slug}`}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-white/20 text-white shadow-[0_0_15px_rgba(255,255,255,0.05)] transition-all duration-500 group-hover:shadow-[0_0_25px_rgba(255,255,255,0.15)] hover:border-white hover:bg-white hover:text-black"
                   >
                     <ArrowRight size={14} strokeWidth={1.5} />
-                  </Button>
+                  </Link>
                 </div>
               </div>
             </div>

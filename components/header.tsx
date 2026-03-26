@@ -128,14 +128,14 @@ function Hamburger({ onClick }: { onClick: () => void }) {
 }
 
 // ── Magnetic nav item ──────────────────────────────────────────────────
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _PanelNavItem({
+// ── Magnetic nav item ──────────────────────────────────────────────────
+const PanelNavItem = ({
   item,
   onClose,
 }: {
   item: { label: string; href: string }
   onClose: () => void
-}) {
+}) => {
   const mx = useMotionValue(0)
   const my = useMotionValue(0)
   const sx = useSpring(mx, { stiffness: 300, damping: 25 })
@@ -389,19 +389,11 @@ export function Header() {
                 <div className="flex flex-col gap-10">
                   <ul className="flex flex-col gap-3">
                     {navItems.map((item) => (
-                      <motion.li
+                      <PanelNavItem
                         key={item.label}
-                        variants={itemVariants}
-                        className="group flex items-center"
-                      >
-                        <Link
-                          href={item.href}
-                          className="inline-block font-serif text-[40px] tracking-tighter text-text-primary/70 italic transition-all duration-500 hover:translate-x-4 hover:text-text-primary md:text-[64px]"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          {item.label}
-                        </Link>
-                      </motion.li>
+                        item={item}
+                        onClose={() => setIsOpen(false)}
+                      />
                     ))}
                   </ul>
                 </div>

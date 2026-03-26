@@ -1,198 +1,246 @@
 "use client"
 
-import React, { useState, useMemo } from "react"
-import { useSearchParams } from "next/navigation"
+import React, { useState, useCallback, useEffect } from "react"
+import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { ListingSidebar } from "./listing-sidebar"
 import { ListingCard } from "./listing-card"
-import { LUXURY_INVENTORY } from "@/lib/data/inventory"
-import { ChevronDown } from "lucide-react"
+import { getCars, Car, generateCarSlug, getAssetUrl } from "@/lib/api"
+import { ChevronDown, Loader2, SlidersHorizontal, X, LayoutGrid, Rows } from "lucide-react"
 
-const parsePrice = (priceStr: string) => {
-  if (priceStr.toUpperCase() === "POA") return 9999999999
-  return parseInt(priceStr.replace(/[$,]/g, ""), 10) || 0
+const fmtPrice = (n: number) =>
+  new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    maximumFractionDigits: 0,
+  }).format(n)
+
+const fmtMileage = (m: number | string | undefined) => {
+  if (!m) return "N/A"
+  if (typeof m === "string") return m.includes("mi") ? m : `${m} mi`
+  return `${m.toLocaleString()} mi`
 }
+
+const SORT_OPTIONS = [
+  { label: "Recommended", sort: undefined, dir: undefined },
+  { label: "Price: High to Low", sort: "price", dir: "desc" as const },
+  { label: "Price: Low to High", sort: "price", dir: "asc" as const },
+  { label: "Newest First", sort: "year", dir: "desc" as const },
+  { label: "Lowest Mileage", sort: "mileage", dir: "asc" as const },
+]
 
 export function ListingClient() {
   const searchParams = useSearchParams()
-  const [searchQuery, setSearchQuery] = useState(
-    searchParams.get("search") || ""
-  )
-  const [selectedBrand, setSelectedBrand] = useState(
-    searchParams.get("brand") || "All"
-  )
+  const router = useRouter()
+  const pathname = usePathname()
 
-  const [minYear, setMinYear] = useState<string>(
-    searchParams.get("minYear") || ""
-  )
-  const [maxYear, setMaxYear] = useState<string>(
-    searchParams.get("maxYear") || ""
-  )
-  const [maxPrice, setMaxPrice] = useState<string>(
-    searchParams.get("maxPrice") || ""
-  )
-  const [maxMiles, setMaxMiles] = useState<string>(
-    searchParams.get("maxMiles") || ""
-  )
-  const [condition] = useState<string>(
-    searchParams.get("condition") || "All"
-  )
+  // Filter state
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "")
+  const [selectedBrand, setSelectedBrand] = useState(searchParams.get("make") || "All")
+  const [minYear, setMinYear] = useState(searchParams.get("minYear") || "")
+  const [maxYear, setMaxYear] = useState(searchParams.get("maxYear") || "")
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "")
+  const [maxMiles, setMaxMiles] = useState(searchParams.get("maxMiles") || "")
+  const [fuelType, setFuelType] = useState(searchParams.get("fuel") || "All")
+  const [condition, setCondition] = useState(searchParams.get("condition") || "All")
 
-  // Sorting state
-  const [sortBy, setSortBy] = useState("Recommended")
+  const [sortIndex, setSortIndex] = useState(0)
   const [isSortOpen, setIsSortOpen] = useState(false)
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false)
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
-  const brands = useMemo(() => {
-    const uniqueBrands = new Set(LUXURY_INVENTORY.map((v) => v.brand))
-    return Array.from(uniqueBrands)
-  }, [])
+  const [vehicles, setVehicles] = useState<ReturnType<typeof mapCar>[]>([])
+  const [allBrands, setAllBrands] = useState<string[]>([])
+  const [allFuels, setAllFuels] = useState<string[]>([])
+  const [totalCount, setTotalCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const filteredInventory = useMemo(() => {
-    const result = LUXURY_INVENTORY.filter((vehicle) => {
-      // Combine searchable fields into one easy string to support checking Categories like 'SUV', 'Electric', 'Sedan'
-      const searchTarget =
-        `${vehicle.name} ${vehicle.brand} ${vehicle.fuel || ""} ${vehicle.details?.Body || ""} ${vehicle.badge || ""} ${vehicle.details?.Condition || ""}`.toLowerCase()
-      const matchesSearch =
-        !searchQuery || searchTarget.includes(searchQuery.toLowerCase())
+  const sortOpt = SORT_OPTIONS[sortIndex]
 
-      const matchesBrand =
-        selectedBrand === "All" ||
-        vehicle.brand.toLowerCase() === selectedBrand.toLowerCase()
+  const fetch = useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const params: Parameters<typeof getCars>[0] = {
+        per_page: 60,
+        ...(sortOpt.sort && { sort: sortOpt.sort, direction: sortOpt.dir }),
+        ...(searchQuery && { search: searchQuery }),
+        ...(selectedBrand !== "All" && { make: selectedBrand }),
+        ...(maxPrice && { max_price: Number(maxPrice) }),
+        ...(fuelType !== "All" && { fuel_type: fuelType }),
+        ...(condition !== "All" && { condition }),
+      }
 
-      let matchesCondition = true
-      if (condition && condition !== "All") {
-        const condType = vehicle.details?.Condition || ""
-        const isNew =
-          condType.toLowerCase().includes("new") ||
-          condType.toLowerCase().includes("delivery")
-        if (condition === "new") {
-          matchesCondition = isNew
-        } else if (condition === "pre-owned") {
-          matchesCondition = !isNew
+      const res = await getCars(params)
+
+      if (res.success) {
+        let cars = res.data.map(mapCar)
+
+        // Client-side year filtering (API may not support it)
+        if (minYear) cars = cars.filter((c) => Number(c.year) >= Number(minYear))
+        if (maxYear) cars = cars.filter((c) => Number(c.year) <= Number(maxYear))
+
+        // Client-side mileage filter
+        if (maxMiles) {
+          cars = cars.filter((c) => {
+            const m = parseInt(c.mileage.replace(/[^0-9]/g, ""))
+            return isNaN(m) || m <= Number(maxMiles)
+          })
+        }
+
+        setVehicles(cars)
+        setTotalCount(res.meta?.total ?? cars.length)
+
+        // Derive filter options from full dataset if brands not yet loaded
+        if (allBrands.length === 0) {
+          const allRes = await getCars({ per_page: 200 })
+          if (allRes.success) {
+            setAllBrands(["All", ...Array.from(new Set(allRes.data.map((c) => c.make.toUpperCase())))])
+            setAllFuels(["All", ...Array.from(new Set(allRes.data.map((c) => c.fuel_type || "Petrol")))])
+          }
         }
       }
-
-      let matchesMinYear = true
-      if (minYear) {
-        matchesMinYear = parseInt(vehicle.year) >= parseInt(minYear)
-      }
-
-      let matchesMaxYear = true
-      if (maxYear) {
-        matchesMaxYear = parseInt(vehicle.year) <= parseInt(maxYear)
-      }
-
-      let matchesMaxPrice = true
-      if (maxPrice) {
-        matchesMaxPrice = parsePrice(vehicle.price) <= parseInt(maxPrice)
-      }
-
-      let matchesMaxMiles = true
-      if (maxMiles) {
-        const vehicleMiles = parseInt(vehicle.mileage.replace(/[^0-9]/g, ""))
-        const parsedVehicleMiles = isNaN(vehicleMiles) ? 0 : vehicleMiles
-        matchesMaxMiles = parsedVehicleMiles <= parseInt(maxMiles)
-      }
-
-      return (
-        matchesSearch &&
-        matchesBrand &&
-        matchesCondition &&
-        matchesMinYear &&
-        matchesMaxYear &&
-        matchesMaxPrice &&
-        matchesMaxMiles
-      )
-    })
-
-    if (sortBy === "Price: High to Low") {
-      result.sort((a, b) => parsePrice(b.price) - parsePrice(a.price))
-    } else if (sortBy === "Price: Low to High") {
-      result.sort((a, b) => parsePrice(a.price) - parsePrice(b.price))
-    } else if (sortBy === "Newest Arrivals") {
-      result.sort((a, b) => parseInt(b.year) - parseInt(a.year))
+    } catch (e) {
+      console.error(e)
+      setError("Unable to load collection. Please try again.")
+    } finally {
+      setIsLoading(false)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, selectedBrand, maxPrice, fuelType, condition, minYear, maxYear, maxMiles, sortIndex])
 
-    return result
-  }, [
-    searchQuery,
-    selectedBrand,
-    sortBy,
-    minYear,
-    maxYear,
-    maxPrice,
-    maxMiles,
-    condition,
-  ])
+  useEffect(() => {
+    fetch()
+  }, [fetch])
+
+  useEffect(() => {
+    const p = new URLSearchParams()
+    if (searchQuery) p.set("search", searchQuery)
+    if (selectedBrand !== "All") p.set("make", selectedBrand)
+    if (minYear) p.set("minYear", minYear)
+    if (maxYear) p.set("maxYear", maxYear)
+    if (maxPrice) p.set("maxPrice", maxPrice)
+    if (maxMiles) p.set("maxMiles", maxMiles)
+    if (fuelType !== "All") p.set("fuel", fuelType)
+    if (condition !== "All") p.set("condition", condition)
+    router.replace(`${pathname}?${p.toString()}`, { scroll: false })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, selectedBrand, minYear, maxYear, maxPrice, maxMiles, fuelType, condition])
+
+  const hasActiveFilters =
+    !!searchQuery ||
+    selectedBrand !== "All" ||
+    !!minYear ||
+    !!maxYear ||
+    !!maxPrice ||
+    !!maxMiles ||
+    fuelType !== "All" ||
+    condition !== "All"
+
+  const resetAll = () => {
+    setSearchQuery(""); setSelectedBrand("All"); setMinYear(""); setMaxYear("")
+    setMaxPrice(""); setMaxMiles(""); setFuelType("All"); setCondition("All")
+  }
 
   return (
-    <section className="relative z-10 w-full pt-8 pb-32">
-      <div className="relative mx-auto flex max-w-[1400px] flex-col gap-12 px-6 lg:flex-row">
-        {/* ── SIDEBAR FILTERS ──────────────────────────────────────── */}
-        <aside className="w-full shrink-0 lg:w-72">
+    <section className="relative z-10 w-full px-6 pt-8 pb-32 md:px-8">
+      <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 lg:flex-row">
+
+        <aside className="hidden w-72 shrink-0 lg:block">
           <ListingSidebar
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            selectedBrand={selectedBrand}
-            setSelectedBrand={setSelectedBrand}
-            brands={brands}
-            minYear={minYear}
-            setMinYear={setMinYear}
-            maxYear={maxYear}
-            setMaxYear={setMaxYear}
-            maxPrice={maxPrice}
-            setMaxPrice={setMaxPrice}
-            maxMiles={maxMiles}
-            setMaxMiles={setMaxMiles}
+            searchQuery={searchQuery} setSearchQuery={setSearchQuery}
+            selectedBrand={selectedBrand} setSelectedBrand={setSelectedBrand}
+            brands={allBrands}
+            minYear={minYear} setMinYear={setMinYear}
+            maxYear={maxYear} setMaxYear={setMaxYear}
+            maxPrice={maxPrice} setMaxPrice={setMaxPrice}
+            maxMiles={maxMiles} setMaxMiles={setMaxMiles}
+            fuelType={fuelType} setFuelType={setFuelType}
+            fuels={allFuels}
+            condition={condition} setCondition={setCondition}
+            hasActiveFilters={hasActiveFilters}
+            onReset={resetAll}
           />
         </aside>
 
-        {/* ── GRID & RESULTS ────────────────────────────────────────── */}
         <main className="min-w-0 flex-1">
-          <div className="mb-8 flex items-center justify-between border-b border-white/5 pb-4">
-            <span className="hidden text-xs font-bold tracking-widest text-white/50 uppercase sm:inline-block">
-              Showing {filteredInventory.length} Vehicles
+          <div className="mb-6 flex items-center gap-3 border-b border-white/5 pb-5">
+            <button
+              onClick={() => setIsMobileFiltersOpen(true)}
+              className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-black tracking-widest text-white uppercase lg:hidden"
+            >
+              <SlidersHorizontal size={13} />
+              Filters
+              {hasActiveFilters && (
+                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-white text-[8px] font-black text-black">
+                  !
+                </span>
+              )}
+            </button>
+
+            <span className="hidden text-[10px] font-bold tracking-widest text-white/40 uppercase sm:block">
+              {isLoading ? "Loading…" : `${vehicles.length} vehicles`}
             </span>
 
-            {/* Custom Sort Dropdown */}
-            <div className="relative z-40 ml-auto sm:ml-0">
+            {hasActiveFilters && (
+              <button
+                onClick={resetAll}
+                className="hidden items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[9px] font-black tracking-widest text-white/50 uppercase transition-all hover:text-white lg:flex"
+              >
+                <X size={10} /> Clear Filters
+              </button>
+            )}
+
+            <div className="hidden items-center gap-1 rounded-xl border border-white/10 bg-white/5 p-1 lg:flex">
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`flex items-center justify-center rounded-lg p-2 transition-all ${
+                  viewMode === "grid" ? "bg-white text-black" : "text-white/40 hover:text-white"
+                }`}
+              >
+                <LayoutGrid size={14} />
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`flex items-center justify-center rounded-lg p-2 transition-all ${
+                  viewMode === "list" ? "bg-white text-black" : "text-white/40 hover:text-white"
+                }`}
+              >
+                <Rows size={14} />
+              </button>
+            </div>
+
+            <div className="relative z-40 ml-auto">
               <button
                 onClick={() => setIsSortOpen(!isSortOpen)}
-                className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/3 px-4 py-2.5 text-[10px] font-bold tracking-widest text-white uppercase transition-colors hover:bg-white/6 sm:text-xs"
+                className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] font-black tracking-widest text-white uppercase transition-all hover:bg-white/8"
               >
-                <span>Sort: {sortBy}</span>
+                {sortOpt.label}
                 <ChevronDown
-                  size={14}
-                  className={`text-white/50 transition-transform ${isSortOpen ? "rotate-180" : ""}`}
+                  size={13}
+                  className={`text-white/40 transition-transform ${isSortOpen ? "rotate-180" : ""}`}
                 />
               </button>
               <AnimatePresence>
                 {isSortOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full right-0 mt-2 w-56 overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] shadow-2xl"
+                    exit={{ opacity: 0, y: 8 }}
+                    className="absolute top-full right-0 mt-2 w-52 overflow-hidden rounded-2xl border border-white/10 bg-[#0a0f1a] shadow-2xl"
                   >
-                    {[
-                      "Recommended",
-                      "Price: High to Low",
-                      "Price: Low to High",
-                      "Newest Arrivals",
-                    ].map((option) => (
+                    {SORT_OPTIONS.map((opt, i) => (
                       <button
-                        key={option}
-                        onClick={() => {
-                          setSortBy(option)
-                          setIsSortOpen(false)
-                        }}
-                        className={`w-full px-5 py-3.5 text-left text-xs font-bold tracking-widest uppercase transition-colors ${
-                          sortBy === option
-                            ? "bg-white/5 text-white"
-                            : "text-white/50 hover:bg-white/10 hover:text-white"
+                        key={opt.label}
+                        onClick={() => { setSortIndex(i); setIsSortOpen(false) }}
+                        className={`w-full px-5 py-3.5 text-left text-[10px] font-black tracking-widest uppercase transition-colors ${
+                          i === sortIndex
+                            ? "bg-white/8 text-white"
+                            : "text-white/40 hover:bg-white/5 hover:text-white"
                         }`}
                       >
-                        {option}
+                        {opt.label}
                       </button>
                     ))}
                   </motion.div>
@@ -201,31 +249,117 @@ export function ListingClient() {
             </div>
           </div>
 
-          <motion.div
-            layout
-            className="relative z-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"
-          >
-            <AnimatePresence>
-              {filteredInventory.map((vehicle, index) => (
-                <ListingCard key={vehicle.id} vehicle={vehicle} index={index} />
-              ))}
-            </AnimatePresence>
-          </motion.div>
-
-          {filteredInventory.length === 0 && (
+          {isLoading ? (
+            <div className="flex w-full flex-col items-center justify-center py-40">
+              <Loader2 className="h-10 w-10 animate-spin text-white/20" />
+              <p className="mt-4 text-[10px] font-black tracking-[0.3em] text-white/30 uppercase">
+                Accessing Archive…
+              </p>
+            </div>
+          ) : error ? (
+            <div className="flex w-full flex-col items-center justify-center py-40 text-center">
+              <p className="text-2xl font-black tracking-tighter text-white uppercase">Archive Offline</p>
+              <p className="mt-2 text-xs text-white/30">{error}</p>
+              <button onClick={fetch} className="mt-6 rounded-full border border-white/10 px-6 py-2 text-[10px] font-black tracking-widest text-white/50 uppercase hover:text-white">
+                Retry
+              </button>
+            </div>
+          ) : vehicles.length === 0 ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="flex w-full flex-col items-center justify-center py-32 text-center font-black tracking-widest text-white/30 uppercase"
+              className="flex w-full flex-col items-center justify-center py-40 text-center"
             >
-              <p className="text-xl">No vehicles found</p>
-              <p className="mt-2 text-xs font-medium tracking-normal text-white/20">
-                Try adjusting your filters or search query.
-              </p>
+              <p className="text-2xl font-black tracking-tighter text-white uppercase">No Results</p>
+              <p className="mt-2 text-xs text-white/30">Try adjusting your filters.</p>
+              {hasActiveFilters && (
+                <button onClick={resetAll} className="mt-6 rounded-full border border-white/10 px-6 py-2 text-[10px] font-black tracking-widest text-white/50 uppercase hover:text-white">
+                  Clear Filters
+                </button>
+              )}
+            </motion.div>
+          ) : (
+            <motion.div layout className={viewMode === "list" ? "flex flex-col gap-4" : "grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"}>
+              <AnimatePresence>
+                {vehicles.map((v, i) => (
+                  <ListingCard key={v.id} vehicle={v} index={i} view={viewMode} />
+                ))}
+              </AnimatePresence>
             </motion.div>
           )}
         </main>
       </div>
+
+      <AnimatePresence>
+        {isMobileFiltersOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setIsMobileFiltersOpen(false)}
+              className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm lg:hidden"
+            />
+            <motion.div
+              initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="fixed inset-y-0 left-0 z-50 w-80 overflow-y-auto bg-[#0a0f1a] p-6 shadow-2xl lg:hidden"
+            >
+              <div className="mb-6 flex items-center justify-between">
+                <span className="text-xs font-black tracking-widest text-white uppercase">Filters</span>
+                <button onClick={() => setIsMobileFiltersOpen(false)} className="text-white/40 hover:text-white">
+                  <X size={20} />
+                </button>
+              </div>
+              <ListingSidebar
+                searchQuery={searchQuery} setSearchQuery={setSearchQuery}
+                selectedBrand={selectedBrand} setSelectedBrand={setSelectedBrand}
+                brands={allBrands}
+                minYear={minYear} setMinYear={setMinYear}
+                maxYear={maxYear} setMaxYear={setMaxYear}
+                maxPrice={maxPrice} setMaxPrice={setMaxPrice}
+                maxMiles={maxMiles} setMaxMiles={setMaxMiles}
+                fuelType={fuelType} setFuelType={setFuelType}
+                fuels={allFuels}
+                condition={condition} setCondition={setCondition}
+                hasActiveFilters={hasActiveFilters}
+                onReset={resetAll}
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   )
+}
+
+function mapCar(car: Car) {
+  const primaryImg =
+    car.images && car.images.length > 0
+      ? car.images.find((i) => i.is_primary)?.url ?? 
+        car.images.find((i) => i.is_primary)?.image_path ?? 
+        car.images[0].url ?? 
+        car.images[0].image_path
+      : car.primary_image || car.image || "/images/card/card-1.jpg"
+
+  return {
+    id: car.id,
+    slug: generateCarSlug(car),
+    name: `${car.make} ${car.model}`,
+    brand: car.make.toUpperCase(),
+    price: fmtPrice(car.price),
+    monthlyPrice: fmtPrice(Math.round(car.price / 60)) + "/mo",
+    mileage: fmtMileage(car.mileage),
+    year: car.year.toString(),
+    fuel: car.fuel_type || "Petrol",
+    transmission: car.transmission || "Automatic",
+    image: getAssetUrl(primaryImg),
+    badge: car.featured ? "Featured" : car.status || "Available",
+    featured: !!car.featured,
+    color: car.color ?? null,
+    bodyType: car.body_type ?? null,
+    condition: car.condition ?? null,
+    status: car.status ?? null,
+    vin: car.vin ?? null,
+    description: car.description ?? null,
+    imagesCount: car.images?.length ?? (car.image ? 1 : 0),
+  }
 }
