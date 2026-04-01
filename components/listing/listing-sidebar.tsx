@@ -70,7 +70,7 @@ export function ListingSidebar({
         </button>
       )}
 
-      <FilterSection label="Make / Marque" isOpen={brandsOpen} setOpen={setBrandsOpen}>
+      <FilterSection label="What Brand?" isOpen={brandsOpen} setOpen={setBrandsOpen}>
         <div className="flex max-h-56 flex-col gap-0.5 overflow-y-auto pr-1 custom-scrollbar">
           {(brands.length ? brands : ["All"]).map((b) => (
             <FilterOption
@@ -83,7 +83,7 @@ export function ListingSidebar({
         </div>
       </FilterSection>
 
-      <FilterSection label="Fuel Type" isOpen={fuelOpen} setOpen={setFuelOpen}>
+      <FilterSection label="Engine Type" isOpen={fuelOpen} setOpen={setFuelOpen}>
         <div className="flex flex-col gap-0.5">
           {(fuels.length ? fuels : ["All"]).map((f) => (
             <FilterOption
@@ -142,7 +142,7 @@ export function ListingSidebar({
       </div>
 
       <div className="border-t border-white/5 pt-5">
-        <h3 className="mb-3 text-[9px] font-black tracking-[0.3em] text-white/40 uppercase">Max Mileage (mi)</h3>
+        <h3 className="mb-3 text-[9px] font-black tracking-[0.3em] text-white/40 uppercase">How Many Miles? (max)</h3>
         <input
           type="number"
           placeholder="e.g. 50,000"

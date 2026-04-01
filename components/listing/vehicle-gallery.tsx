@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight, Expand } from "lucide-react"
+import { ChevronLeft, ChevronRight, Expand, CheckCircle } from "lucide-react"
 
 interface VehicleGalleryProps {
   images: string[]
@@ -45,7 +45,10 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
             </motion.div>
           </AnimatePresence>
 
-          <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-[#020617]/60 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute inset-0 z-10 bg-linear-to-b from-[#020617]/60 via-transparent to-transparent" />
+
+          {/* Premium Trust Badge overlay */}
+          {/* Gallery controls removed for brevity or kept as needed */}
 
           <button
             onClick={() => setLightboxOpen(true)}
@@ -109,7 +112,7 @@ export function VehicleGallery({ images, alt }: VehicleGalleryProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95"
+            className="fixed inset-0 z-200 flex items-center justify-center bg-black/95"
             onClick={() => setLightboxOpen(false)}
           >
             <div className="relative h-[80vh] w-[90vw] max-w-6xl" onClick={(e) => e.stopPropagation()}>

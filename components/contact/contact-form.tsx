@@ -52,7 +52,7 @@ export function ContactForm() {
           Message Received
         </h3>
         <p className="text-sm font-medium text-white/40 max-w-sm px-6">
-          Thank you for reaching out. A specialist from our team will contact you shortly.
+          Thank you for reaching out. One of our team members will call or WhatsApp you shortly.
         </p>
         <button 
           onClick={() => setStatus("idle")}
@@ -73,8 +73,8 @@ export function ContactForm() {
             name="name"
             type="text"
             required
-            placeholder="HOW SHOULD WE ADDRESS YOU?"
-            className="w-full bg-white/2 border border-white/5 rounded-2xl py-5 px-8 text-[10px] text-white tracking-widest font-bold focus:border-white/20 focus:bg-white/5 focus:outline-hidden transition-all placeholder:text-white/10"
+            placeholder="WHAT IS YOUR NAME?"
+            className="w-full bg-white/2 border border-white/5 rounded-2xl py-5 px-8 text-[10px] text-white tracking-widest font-bold focus:border-white/20 focus:bg-white/5 focus:outline-none transition-all placeholder:text-white/10"
           />
         </div>
         <div className="space-y-3">
@@ -83,8 +83,8 @@ export function ContactForm() {
             name="email"
             type="email"
             required
-            placeholder="WHERE CAN WE REACH YOU?"
-            className="w-full bg-white/2 border border-white/5 rounded-2xl py-5 px-8 text-[10px] text-white tracking-widest font-bold focus:border-white/20 focus:bg-white/5 focus:outline-hidden transition-all placeholder:text-white/10"
+            placeholder="YOUR EMAIL ADDRESS"
+            className="w-full bg-white/2 border border-white/5 rounded-2xl py-5 px-8 text-[10px] text-white tracking-widest font-bold focus:border-white/20 focus:bg-white/5 focus:outline-none transition-all placeholder:text-white/10"
           />
         </div>
       </div>
@@ -106,7 +106,7 @@ export function ContactForm() {
             name="subject"
             type="text"
             required
-            placeholder="WHAT IS THIS REGARDING?"
+            placeholder="HOW CAN WE HELP?"
             className="w-full bg-white/2 border border-white/5 rounded-2xl py-5 px-8 text-[10px] text-white tracking-widest font-bold focus:border-white/20 focus:bg-white/5 focus:outline-hidden transition-all placeholder:text-white/10"
           />
         </div>
@@ -118,7 +118,7 @@ export function ContactForm() {
           name="message"
           rows={6}
           required
-          placeholder="HOW CAN OUR CONCIERGE ASSIST YOU TODAY?"
+          placeholder="TELL US MORE ABOUT YOUR REQUEST..."
           className="w-full bg-white/2 border border-white/5 rounded-3xl py-6 px-8 text-[10px] text-white tracking-widest font-bold focus:border-white/20 focus:bg-white/5 focus:outline-hidden transition-all placeholder:text-white/10 resize-none"
         />
       </div>
@@ -136,7 +136,7 @@ export function ContactForm() {
           <Loader2 size={16} className="animate-spin" />
         ) : (
           <>
-            Send Transmission
+            Send Message
             <Send size={14} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </>
         )}

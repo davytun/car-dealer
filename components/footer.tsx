@@ -6,10 +6,11 @@ import { MagneticButton } from "@/components/magnetic-button"
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Listing", href: "/listing" },
-  { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact" },
+  { label: "About Us", href: "/about" },
+  { label: "Our Cars", href: "/listing" },
+  { label: "Car Tips", href: "/blog" },
+  { label: "Contact Us", href: "/contact" },
+  { label: "WhatsApp Us", href: "https://wa.me/2347077195098?text=Hi, I saw your cars online and I'd love to find something within my budget. Can you help me?" },
 ]
 
 const SOCIALS = [
@@ -40,8 +41,8 @@ export function Footer() {
               IGNITE
             </Link>
             <p className="text-[14px] leading-loose text-text-secondary max-w-md mb-12 uppercase tracking-widest font-bold opacity-60">
-              Redefining the automotive acquisition experience for the discerning Nigerian collector. 
-              Archive. Verification. Luxury.
+              Find a car you can count on. No stress, no hidden charges. 
+              We help you drive with peace of mind.
             </p>
             
             <div className="flex flex-col gap-6">
@@ -65,7 +66,7 @@ export function Footer() {
           {/* Navigation Links */}
           <div className="lg:col-span-3 grid grid-cols-2 lg:grid-cols-1 gap-12">
             <div>
-               <span className="mono-md text-white/10 mb-8 block font-black tracking-[0.4em] uppercase text-[9px]">Navigation</span>
+               <span className="mono-md text-white/10 mb-8 block font-black tracking-[0.4em] uppercase text-[9px]">Quick Links</span>
                <ul className="space-y-4">
                  {NAV_LINKS.map((link) => (
                    <li key={link.label}>
@@ -81,11 +82,10 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Newsletter / Join the Archive */}
           <div className="lg:col-span-4">
-            <span className="mono-md text-white/10 mb-8 block font-black tracking-[0.4em] uppercase text-[9px]">Newsletter</span>
+            <span className="mono-md text-white/10 mb-8 block font-black tracking-[0.4em] uppercase text-[9px]">Get Notified</span>
             <p className="text-[11px] text-text-secondary mb-8 leading-loose uppercase tracking-widest">
-              Join our exclusive collective for archival insights and first access to new arrivals.
+              Send us your email and we will tell you whenever we get a new car on our lot.
             </p>
             
             <form className="group relative" onSubmit={(e) => e.preventDefault()}>
@@ -125,7 +125,7 @@ export function Footer() {
           {/* Copyright */}
           <div className="text-center md:text-left order-3 md:order-2">
             <p className="mono-md text-[9px] text-white/20 uppercase tracking-[0.3em]">
-              &copy; 2026 Ignite Luxury Archive. Built with Precision.
+              &copy; 2026 Ignite Cars. Built for you in Lagos.
             </p>
           </div>
 

@@ -135,7 +135,7 @@ export function TestDriveForm({ carId, carName }: TestDriveFormProps) {
       <div className="space-y-1.5">
         <label
           htmlFor="td-date"
-          className="flex items-center gap-1.5 text-[9px] font-black tracking-[0.2em] text-white/30 uppercase"
+          className="flex items-center gap-1.5 text-[10px] font-black tracking-[0.2em] text-white/30 uppercase"
         >
           <CalendarDays size={10} />
           Preferred Date
@@ -156,7 +156,7 @@ export function TestDriveForm({ carId, carName }: TestDriveFormProps) {
 
       {/* Time slots */}
       <div className="space-y-2">
-        <label className="flex items-center gap-1.5 text-[9px] font-black tracking-[0.2em] text-white/30 uppercase">
+        <label className="flex items-center gap-1.5 text-[10px] font-black tracking-[0.2em] text-white/30 uppercase">
           <Clock size={10} />
           Preferred Time
         </label>
@@ -185,7 +185,7 @@ export function TestDriveForm({ carId, carName }: TestDriveFormProps) {
       <div className="space-y-1.5">
         <label
           htmlFor="td-notes"
-          className="text-[9px] font-black tracking-[0.2em] text-white/30 uppercase"
+          className="text-[10px] font-black tracking-[0.2em] text-white/30 uppercase"
         >
           Notes <span className="text-white/20">(optional)</span>
         </label>
@@ -241,7 +241,7 @@ function FormField({
     <div className="space-y-1.5">
       <label
         htmlFor={id}
-        className="text-[9px] font-black tracking-[0.2em] text-white/30 uppercase"
+        className="text-[10px] font-black tracking-[0.2em] text-white/30 uppercase"
       >
         {label}
       </label>

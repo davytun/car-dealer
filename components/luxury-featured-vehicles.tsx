@@ -11,6 +11,7 @@ import {
   Navigation,
   Loader2,
   Heart,
+  ShieldCheck,
 } from "lucide-react"
 import { getCars, Car, generateCarSlug, getAssetUrl } from "@/lib/api"
 import { InventorySearch } from "./inventory-search"
@@ -43,8 +44,6 @@ interface LuxuryMappedVehicle {
   transmission: string
   image: string
   badge: string
-  imagesCount: number
-  videoCount: number
 }
 
 const VehicleCard = ({
@@ -64,7 +63,7 @@ const VehicleCard = ({
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
       onClick={() => router.push(`/listing/${vehicle.slug}`)}
-      className="group relative cursor-pointer overflow-hidden rounded-4xl border border-white/5 bg-bg-surface/40 backdrop-blur-xl transition-all duration-700 hover:border-white/30 hover:shadow-[0_32px_64px_rgba(0,0,0,0.8),0_0_40px_rgba(255,255,255,0.05)]"
+      className="group relative cursor-pointer overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#0F172A]/40 backdrop-blur-3xl transition-all duration-700 hover:border-white/20 hover:shadow-[0_40px_80px_rgba(0,0,0,0.6)]"
     >
       <div className="relative m-3 aspect-4/3 overflow-hidden rounded-3xl">
         <Image
@@ -76,9 +75,10 @@ const VehicleCard = ({
 
         {/* Badges Overlay */}
         <div className="absolute top-4 left-4 flex flex-col gap-2">
-          <span className="rounded-full bg-white/90 px-3 py-1.5 text-[9px] font-black tracking-widest text-bg-base uppercase shadow-lg backdrop-blur-md">
-            {vehicle.badge}
-          </span>
+            <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3 py-1.5 text-[10px] font-black tracking-widest text-emerald-400 uppercase shadow-lg backdrop-blur-md transition-all group-hover:bg-emerald-500/10">
+              <ShieldCheck size={11} className="text-emerald-500" />
+              100% Verified
+            </span>
         </div>
 
         {/* Heart Icon */}
@@ -97,22 +97,6 @@ const VehicleCard = ({
             />
           </motion.div>
         </button>
-
-        {/* Media Counts & Brand */}
-        <div className="pointer-events-none absolute right-4 bottom-4 left-4 flex items-center justify-between">
-          <span className="rounded-lg border border-white/10 bg-black/40 px-3 py-1 text-[8px] font-black tracking-[0.2em] text-white/70 backdrop-blur-md">
-            {vehicle.brand}
-          </span>
-          <div className="flex gap-2">
-            <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/40 px-2 py-1 text-[9px] font-bold text-white/50 backdrop-blur-md">
-              <Navigation size={10} /> {vehicle.imagesCount}
-            </div>
-            <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/40 px-2 py-1 text-[9px] font-bold text-white/50 backdrop-blur-md">
-              <Loader2 size={10} className="animate-spin-slow" />{" "}
-              {vehicle.videoCount}
-            </div>
-          </div>
-        </div>
 
         {/* Charging Effect (Subtle Line) */}
         <div className="absolute bottom-0 left-0 z-30 h-1 w-0 bg-white/40 transition-all duration-1000 group-hover:w-full" />
@@ -157,26 +141,38 @@ const VehicleCard = ({
         {/* Price & Action */}
         <div className="flex items-end justify-between">
           <div className="flex flex-col">
-            <span className="mb-1 text-[9px] font-black tracking-[0.2em] text-white/30 uppercase">
-              Market Price
+            <span className="mb-1 text-xs font-black tracking-[0.1em] text-white/30 uppercase">
+              Price
             </span>
-            <span className="text-2xl font-black tracking-tighter text-white">
-              {vehicle.price}
-            </span>
+            <div className="flex flex-col">
+              <span className="text-2xl font-black tracking-tighter text-white">
+                {vehicle.price}
+              </span>
+              <div className="flex items-center gap-2 text-emerald-400">
+                <div className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-black tracking-widest uppercase">
+                  No Hidden Charges
+                </span>
+              </div>
+            </div>
           </div>
           <div className="flex flex-col items-end">
-            <span className="mb-1 text-[11px] font-bold text-white/50">
-              {vehicle.monthlyPrice}
-            </span>
-            <div className="group/btn flex items-center gap-1 text-[9px] font-black text-white/30 transition-colors group-hover:text-white">
+            <div className="group/btn flex items-center gap-2 text-xs font-black text-emerald-400/60 transition-colors group-hover:text-emerald-400">
               VIEW DETAILS{" "}
               <ArrowRight
-                size={10}
-                className="transition-transform group-hover/btn:translate-x-0.5"
+                size={12}
+                className="transition-transform group-hover/btn:translate-x-1"
               />
             </div>
           </div>
         </div>
+          <a
+            href={`https://wa.me/2347077195098?text=Hi, I saw the ${vehicle.year} ${vehicle.name} on your site and I'd love to find something within my budget. Can you help me?`}
+            onClick={(e) => e.stopPropagation()}
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-3 text-xs font-bold tracking-widest text-white uppercase transition-all hover:bg-white hover:text-black"
+          >
+            Ask About This Car
+          </a>
       </div>
     </motion.div>
   )
@@ -212,9 +208,7 @@ export function LuxuryFeaturedVehicles() {
             fuel: car.fuel_type || "Petrol",
             transmission: car.transmission || "Automatic",
             image: getAssetUrl(car.primary_image || car.image),
-            badge: "Featured",
-            imagesCount: car.images?.length || 0,
-            videoCount: 0
+            badge: "High Interest This Week",
           }))
           setItems(mapped)
         }
@@ -248,7 +242,7 @@ export function LuxuryFeaturedVehicles() {
   }
 
   return (
-    <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-bg-base px-4 py-32 md:px-8">
+    <section id="catalog" className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-bg-base px-4 py-32 md:px-8">
       <div className="pointer-events-none absolute inset-0 z-0 opacity-20">
         <GridBackground
           type="dot"
@@ -261,18 +255,15 @@ export function LuxuryFeaturedVehicles() {
       <div className="relative z-10 flex w-full max-w-7xl flex-col gap-6 px-8">
         <div className="mb-4 flex flex-col items-end justify-between gap-8 md:flex-row">
           <div>
-            <span className="mb-4 block text-[10px] font-black tracking-[0.5em] text-white/30 uppercase">
-              INVENTORY / MARKETPLACE
+            <span className="mb-4 block text-xs font-black tracking-[0.2em] text-white/40 uppercase">
+              Hand-Picked Quality
             </span>
             <h2 className="text-4xl leading-tight font-black tracking-tighter text-white uppercase md:text-5xl">
-              Curated
-              <br />
-              <span className="text-white/20">Inventory</span>
+              Our Best <br /> Cars.
             </h2>
           </div>
           <p className="mt-8 hidden max-w-sm text-right text-sm font-bold tracking-widest text-white/40 uppercase md:block">
-            Browse our premium vehicle listings with granular filters for your
-            ideal car.
+            Every car we sell is inspected and ready to drive. No surprises.
           </p>
         </div>
 
@@ -283,7 +274,7 @@ export function LuxuryFeaturedVehicles() {
           />
         </div>
 
-        <div className="grid min-h-[400px] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="flex min-h-[400px] flex-wrap justify-center gap-8">
           {isLoading ? (
             Array(4).fill(0).map((_, i) => (
               <div key={i} className="h-[400px] w-full animate-pulse rounded-4xl bg-white/5" />
@@ -292,10 +283,12 @@ export function LuxuryFeaturedVehicles() {
             filteredInventory
               .slice(0, 4)
               .map((v, idx) => (
-                <VehicleCard key={v.id} vehicle={v} index={idx} />
+                <div key={v.id} className="w-full max-w-[340px]">
+                  <VehicleCard vehicle={v} index={idx} />
+                </div>
               ))
           ) : (
-            <div className="col-span-full flex flex-col items-center justify-center py-20 text-white/30">
+            <div className="flex w-full flex-col items-center justify-center py-20 text-white/30">
               <p className="text-xl font-black tracking-widest uppercase">
                 No vehicles found
               </p>
@@ -312,9 +305,9 @@ export function LuxuryFeaturedVehicles() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="group relative flex items-center gap-6 rounded-full bg-white px-12 py-5 text-[10px] font-black tracking-[0.3em] text-black uppercase shadow-[0_20px_40px_rgba(255,255,255,0.1)] transition-all hover:scale-105 active:scale-95"
+            className="group relative flex items-center gap-6 rounded-full bg-white px-12 py-5 text-xs font-black tracking-[0.1em] text-black uppercase shadow-[0_20px_40px_rgba(255,255,255,0.1)] transition-all hover:scale-105 active:scale-95"
           >
-            View All Inventory
+            See All Cars
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/5 transition-transform group-hover:translate-x-1">
               <ArrowRight size={14} className="text-black" />
             </div>

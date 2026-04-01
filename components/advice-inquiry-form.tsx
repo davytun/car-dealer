@@ -18,7 +18,7 @@ export function AdviceInquiryForm() {
       customer_name: formData.get("name") as string,
       customer_email: formData.get("email") as string,
       customer_phone: formData.get("phone") as string,
-      subject: "Specialized Advice: Concierge Service Inquiry",
+      subject: "Help Needed: Advice Inquiry",
       message: formData.get("message") as string,
     }
 
@@ -49,10 +49,10 @@ export function AdviceInquiryForm() {
           <CheckCircle2 size={40} />
         </div>
         <h3 className="mb-2 text-2xl font-black tracking-tight text-white uppercase">
-          Inquiry Received
+          Message Received
         </h3>
         <p className="text-sm font-medium text-white/40 max-w-sm px-6">
-          Thank you for choosing Ignite Luxury. A concierge specialist will reach out shortly for your specialized advice.
+          Thank you for reaching out. One of our team members will call or WhatsApp you shortly.
         </p>
         <button 
           onClick={() => setStatus("idle")}
@@ -73,7 +73,7 @@ export function AdviceInquiryForm() {
             name="name"
             type="text"
             required
-            placeholder="HOW SHOULD WE ADDRESS YOU?"
+            placeholder="WHAT IS YOUR NAME?"
             className="w-full bg-white/2 border border-white/5 rounded-2xl py-5 px-8 text-[10px] text-white tracking-widest font-bold focus:border-white/20 focus:bg-white/5 focus:outline-none transition-all placeholder:text-white/10"
           />
         </div>
@@ -83,7 +83,7 @@ export function AdviceInquiryForm() {
             name="email"
             type="email"
             required
-            placeholder="WHERE CAN WE REACH YOU?"
+            placeholder="YOUR EMAIL ADDRESS"
             className="w-full bg-white/2 border border-white/5 rounded-2xl py-5 px-8 text-[10px] text-white tracking-widest font-bold focus:border-white/20 focus:bg-white/5 focus:outline-none transition-all placeholder:text-white/10"
           />
         </div>
@@ -118,7 +118,7 @@ export function AdviceInquiryForm() {
           name="message"
           rows={6}
           required
-          placeholder="HOW CAN OUR CONCIERGE ASSIST YOU TODAY?"
+          placeholder="HOW CAN WE HELP YOU TODAY?"
           className="w-full bg-white/2 border border-white/5 rounded-3xl py-6 px-8 text-[10px] text-white tracking-widest font-bold focus:border-white/20 focus:bg-white/5 focus:outline-none transition-all placeholder:text-white/10 resize-none"
         />
       </div>
@@ -136,7 +136,7 @@ export function AdviceInquiryForm() {
           <Loader2 size={16} className="animate-spin" />
         ) : (
           <>
-            Send Inquiry
+            Send Message
             <Send size={14} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </>
         )}

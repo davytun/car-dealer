@@ -23,10 +23,10 @@ export default function ContactPage() {
               className="space-y-6"
             >
               <h1 className="text-4xl font-bold tracking-tight text-white md:text-6xl lg:text-7xl">
-                Reach Out to Us
+                Talk To Us Directly
               </h1>
               <p className="mx-auto max-w-2xl text-base text-text-secondary md:text-lg">
-                We’re here to assist with any questions, concerns, or inquiries, contact us today!
+                Whether you want to ask about a price or book a test drive, we are ready to help.
               </p>
             </motion.div>
           </div>
@@ -129,8 +129,8 @@ export default function ContactPage() {
         <section className="px-6 py-12 md:py-24 border-t border-white/5">
           <div className="mx-auto max-w-4xl">
             <div className="mb-12 text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl mb-4">Send a Message</h2>
-               <p className="text-text-secondary">Have a specific request? Drop us a line and we&apos;ll get back to you.</p>
+              <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl mb-4">Tell Us What You Need</h2>
+               <p className="text-text-secondary">Send us a message and we will call or WhatsApp you shortly.</p>
             </div>
 
             <ContactForm />

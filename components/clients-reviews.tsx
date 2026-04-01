@@ -9,48 +9,43 @@ import GridBackground from "@/components/ui/grid-background"
 
 const REVIEWS = [
   {
-    name: "Chinedu A.",
+    name: "Emeka O.",
     location: "Lagos",
-    role: "Entrepreneur",
-    text: "Ignite Luxury made finding my dream SUV a smooth and worry-free experience. The detailed listings and expert guidance gave me full confidence in my purchase. Truly premium service in Nigeria!",
+    role: "Business Owner",
+    text: "I was scared of buying a tokunbo car because of hidden faults, but they let me drive it for 20 minutes before I paid anything. No pressure at all. I bought the 2018 Honda Accord and it's still running perfectly.",
     bg: "/images/luxury/porsche_911_rimlit.png",
   },
   {
-    name: "Funke O.",
+    name: "Blessing A.",
     location: "Abuja",
-    role: "Business Owner",
-    text: "I never imagined buying a luxury car online could be this easy. The financing calculator and comparison tools helped me make the right choice without any stress. Highly recommend Ignite Luxury!",
+    role: "Salaried Worker",
+    text: "They showed me three cars within my budget and gave me time to think. No one was rushing me to pay. I bought the 2019 Toyota Camry and I've never regretted it. Very honest people.",
     bg: "/images/luxury/merc_amg_one.png",
   },
   {
     name: "Tunde S.",
-    location: "Port Harcourt",
-    role: "Executive",
-    text: "From start to finish, Ignite Luxury showed professionalism and transparency. I was able to compare multiple vehicles, get expert advice, and drive away in my new car within days.",
+    location: "Lagos",
+    role: "Contractor",
+    text: "I thought buying online was a scam, but I called them on WhatsApp and they sent me a video of the engine running. I went to their lot, drove the car, and paid. I'm happy with my 2017 Lexus ES350.",
     bg: "/images/luxury/lambo_revuelto.png",
   },
   {
-    name: "Aisha M.",
-    location: "Lagos",
-    role: "Fashion Entrepreneur",
-    text: "Their curated inventory and verified dealers made me feel safe buying a high-end vehicle online. Ignite Luxury is setting a new standard for luxury car sales in Nigeria.",
+    name: "Funke O.",
+    location: "Ibadan",
+    role: "Fashion Designer",
+    text: "My last car was a nightmare, so I was very careful this time. They showed me the inspection report and even recommended a mechanic to check it for me. I bought the 2020 Toyota Corolla and it's a dream.",
     bg: "/images/luxury/ferrari_sf90_moody.png",
   },
   {
-    name: "Emeka U.",
-    location: "Abuja",
-    role: "Investor",
-    text: "Transparent pricing, quick process, and personal guidance – everything I needed as a busy professional. Ignite Luxury made purchasing my Mercedes a seamless experience.",
+    name: "Chinedu U.",
+    location: "Lagos",
+    role: "Trader",
+    text: "No hidden charges. The price I saw on the site was the price I paid. They even helped me with the paper work. I bought a 2015 Toyota Sienna for my business and it's been a workhorse.",
     bg: "/images/luxury/merc_amg_one.png",
   },
 ]
 
-const STATS = [
-  { label: "Luxury Vehicles", value: "18k+" },
-  { label: "Daily Visitors", value: "8k+" },
-  { label: "Dealer Reviews", value: "4.5k+" },
-  { label: "Verified Dealers", value: "3.5k+" },
-]
+
 
 const MARQUEE_ITEMS = [...REVIEWS, ...REVIEWS, ...REVIEWS]
 
@@ -97,22 +92,21 @@ export function ClientsReviews() {
               <div className="mb-8 flex items-center justify-center gap-4 md:justify-start">
                 <div className="h-px w-12 bg-white/20" />
                 <span className="text-[10px] font-black tracking-[0.6em] text-white/40 uppercase">
-                  Testimonials / Archive
+                  What Our Customers Say
                 </span>
               </div>
               <h2 className="mb-2 text-3xl leading-tight font-black tracking-tighter text-white uppercase italic md:text-5xl">
-                Modern{" "}
+                Real Stories{" "}
                 <span className="text-white/40 md:text-white/20">
-                  Dialogues.
+                  From Real Buyers.
                 </span>
               </h2>
               <span className="text-xl font-light tracking-tight text-white/70 md:text-2xl md:text-white/60">
-                Client experiences
+                See how we've helped others find their car.
               </span>
             </div>
             <p className="mx-auto max-w-xs border-l border-white/10 pb-2 pl-8 text-[10px] leading-loose font-bold tracking-[0.3em] text-white/70 uppercase md:mx-0 md:text-white/30">
-              Documenting the journey of discerning collectors who value
-              precision and archival transparency.
+              We don't just sell cars, we build trust with every family we serve in Lagos and beyond.
             </p>
           </div>
         </div>
@@ -186,21 +180,7 @@ export function ClientsReviews() {
         <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-8 bg-linear-to-l from-bg-base via-bg-base/80 to-transparent md:w-64" />
       </div>
 
-      <div className="mx-auto mt-24 grid max-w-7xl grid-cols-2 gap-4 px-6 md:mt-32 md:gap-8 lg:grid-cols-4">
-        {STATS.map((stat, i) => (
-          <div
-            key={i}
-            className="group flex flex-col items-center rounded-2xl border border-white/5 bg-white/5 p-6 transition-all hover:border-white/20 md:rounded-3xl md:p-8"
-          >
-            <span className="mb-1 text-3xl font-black text-white md:mb-2 md:text-5xl">
-              {stat.value}
-            </span>
-            <span className="text-center text-[8px] font-black tracking-[0.4em] text-white/40 uppercase md:text-[10px]">
-              {stat.label}
-            </span>
-          </div>
-        ))}
-      </div>
+
 
       <div className="mx-auto mt-20 flex max-w-7xl animate-in justify-center px-6 opacity-0 delay-500 duration-1000 fill-mode-forwards fade-in">
         <div className="flex items-center gap-4 opacity-10">

@@ -15,22 +15,22 @@ const EASE: [number, number, number, number] = [0.19, 1, 0.22, 1]
 const TEAM = [
   {
     name: "John Adeola",
-    role: "President & CEO",
+    role: "Founder",
     image: "/images/pages/sale-agent-1.jpg",
   },
   {
     name: "Kevin Peace",
-    role: "Chief Operating Officer",
+    role: "Operations Manager",
     image: "/images/pages/sale-agent-2.jpg",
   },
   {
     name: "Adeleke Adebayo",
-    role: "Chief Revenue Officer",
+    role: "Sales Lead",
     image: "/images/pages/sale-agent-3.jpg",
   },
   {
     name: "Kristin Johnson",
-    role: "Chief Financial Officer",
+    role: "Finance Manager",
     image: "/images/pages/sale-agent-4.jpg",
   },
 ]
@@ -60,17 +60,14 @@ export default function AboutPage() {
                 className="flex flex-col items-baseline justify-between gap-12 lg:flex-row"
               >
                 <h1 className="display-md max-w-2xl text-[clamp(2.5rem,8vw,5.5rem)] leading-[0.9] tracking-tighter text-white">
-                  Redefining the <br />
-                  <span className="text-white/20 italic">Archival</span>{" "}
-                  Automotive <br />
-                  Marketplace.
+                  A Simple Way <br />
+                  <span className="text-white/20 italic">To Buy A</span>{" "}
+                  Good car <br />
                 </h1>
 
                 <div className="max-w-xs border-l border-white/5 pl-8 text-left md:max-w-sm">
                   <p className="body-md text-[clamp(0.875rem,1.5vw,1.125rem)] leading-relaxed text-text-secondary">
-                    Ignite Luxury provides the discerning collector with a
-                    vetted, high-end experience, where transparency is the only
-                    standard.
+                    We help everyday Nigerians find reliable cars without the fear of being cheated or buying a lemon.
                   </p>
                 </div>
               </motion.div>
@@ -90,7 +87,7 @@ export default function AboutPage() {
               <div className="relative lg:col-span-7">
                 <div className="group relative aspect-16/10 overflow-hidden rounded-2xl border border-white/5 bg-white/2 shadow-2xl">
                   <Image
-                    src="/images/luxury/porsche_911_rimlit.png"
+                    src="/images/lot/about.jpeg"
                     alt="The Aesthetic"
                     fill
                     className="object-cover brightness-75 grayscale transition-all duration-1000 group-hover:scale-105 group-hover:brightness-100 group-hover:grayscale-0"
@@ -132,19 +129,17 @@ export default function AboutPage() {
                 <div className="space-y-6 md:space-y-8">
                   <h2 className="display-sm text-[clamp(2rem,5vw,3.5rem)] text-white">
                     Expert <br />{" "}
-                    <span className="text-white/20 italic">Guidance.</span>
+                    <span className="text-white/20 italic">Advice.</span>
                   </h2>
                   <p className="body-lg text-[clamp(1rem,1.2vw,1.25rem)] text-text-secondary">
-                    Our platform combines a curated inventory with expert
-                    guidance, ensuring a seamless experience. We operate at the
-                    intersection of expertise and luxury.
+                    We have years of experience in the Lagos car market. We know which cars are good and which ones will give you trouble. We only sell the good ones.
                   </p>
                 </div>
 
                 <div className="space-y-6 border-t border-white/5 pt-10 md:pt-12">
                   <div className="group flex cursor-pointer items-center justify-between">
                     <span className="text-[10px] font-bold tracking-widest text-white/40 uppercase transition-colors group-hover:text-white md:text-xs">
-                      Verified Dealers Across Nigeria
+                      Checked and Inspected Cars
                     </span>
                     <MoveUpRight
                       size={14}
@@ -153,7 +148,7 @@ export default function AboutPage() {
                   </div>
                   <div className="group flex cursor-pointer items-center justify-between">
                     <span className="text-[10px] font-bold tracking-widest text-white/40 uppercase transition-colors group-hover:text-white md:text-xs">
-                      Inventory Collective 2026
+                      Available Cars 2026
                     </span>
                     <MoveUpRight
                       size={14}
@@ -189,13 +184,12 @@ export default function AboutPage() {
                   Our Team
                 </span>
                 <h2 className="display-sm text-[clamp(2rem,5vw,3.5rem)] text-white">
-                  Executive{" "}
-                  <span className="text-white/20 italic">Leadership.</span>
+                  The People <br />{" "}
+                  <span className="text-white/20 italic">Behind This.</span>
                 </h2>
               </div>
               <p className="max-w-xs border-l border-white/10 pl-6 text-[9px] leading-loose font-bold tracking-[0.2em] text-white/30 uppercase md:pl-8 md:text-[10px] md:tracking-[0.3em]">
-                Guided by industry veterans committed to transforming the
-                automotive acquisition experience.
+                We are a team of car lovers who want to make it easy for you to buy a good car in Nigeria.
               </p>
             </div>
 

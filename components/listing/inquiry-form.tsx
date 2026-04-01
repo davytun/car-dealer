@@ -137,7 +137,7 @@ export function InquiryForm({
       <div className="space-y-1.5">
         <label
           htmlFor="message"
-          className="text-[9px] font-black tracking-[0.2em] text-white/30 uppercase"
+          className="text-[10px] font-black tracking-[0.2em] text-white/30 uppercase"
         >
           Message
         </label>
@@ -195,7 +195,7 @@ export function InquiryForm({
           ✕
         </button>
         <div className="mb-8">
-          <span className="mb-2 block text-[9px] font-black tracking-[0.3em] text-white/30 uppercase">
+          <span className="mb-2 block text-[10px] font-black tracking-[0.3em] text-white/30 uppercase">
             Acquisition Inquiry
           </span>
           <h3 className="text-2xl font-black tracking-tighter text-white uppercase">
@@ -228,7 +228,7 @@ function Field({
     <div className="space-y-1.5">
       <label
         htmlFor={id}
-        className="text-[9px] font-black tracking-[0.2em] text-white/30 uppercase"
+        className="text-[10px] font-black tracking-[0.2em] text-white/30 uppercase"
       >
         {label}
       </label>

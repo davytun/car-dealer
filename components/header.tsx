@@ -16,10 +16,10 @@ const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1]
 // ── Nav items ─────────────────────────────────────────────────────────
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Listing", href: "/listing" },
-  { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact" },
+  { label: "About Us", href: "/about" },
+  { label: "Our Cars", href: "/listing" },
+  { label: "Car Tips", href: "/blog" },
+  { label: "Contact Us", href: "/contact" },
 ]
 
 // ── Panel variants ────────────────────────────────────────────────────
@@ -240,10 +240,10 @@ export function Header() {
                   <Search size={16} strokeWidth={1.5} />
                 </AnimIconBtn>
                 <a
-                  href="#contact"
+                  href="https://wa.me/2347077195098?text=Hi, I saw your cars online and I'd love to find something within my budget. Can you help me?"
                   className="ml-2 hidden rounded-full border-[0.5px] border-white/20 bg-transparent px-6 py-[8px] font-sans text-[10px] font-bold tracking-[0.2em] text-white uppercase backdrop-blur-sm transition-all duration-300 hover:bg-white hover:text-black sm:block"
                 >
-                  Contact
+                  WhatsApp Us
                 </a>
                 <div className="ml-1 md:hidden">
                   <Hamburger onClick={() => setIsOpen(true)} />
@@ -295,10 +295,10 @@ export function Header() {
                   <Search size={16} strokeWidth={1.5} />
                 </AnimIconBtn>
                 <a
-                  href="#contact"
+                  href="https://wa.me/2347077195098?text=Hi, I saw your cars online and I'd love to find something within my budget. Can you help me?"
                   className="ml-1 hidden rounded-full border-[0.5px] border-white/20 bg-transparent px-5 py-[7px] font-sans text-[10px] font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 hover:bg-white hover:text-black sm:block"
                 >
-                  Contact
+                  WhatsApp Us
                 </a>
               </div>
             </div>
@@ -406,12 +406,12 @@ export function Header() {
                 style={{ borderTop: "1px solid rgba(240,234,217,0.05)" }}
               >
                 <motion.a
-                  href="#contact"
+                  href="https://wa.me/2347077195098?text=Hi, I saw your cars online and I'd love to find something within my budget. Can you help me?"
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
                   className="flex w-full items-center justify-center gap-3 rounded-full border-[0.5px] border-white/20 bg-transparent py-4 font-sans text-[10px] font-bold tracking-[0.16em] text-white uppercase transition-all duration-500 hover:bg-white hover:text-black"
                 >
-                  Contact
+                  WhatsApp Us
                   <ArrowRight size={14} strokeWidth={1.5} />
                 </motion.a>
               </motion.div>

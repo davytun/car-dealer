@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { BlogClient } from "./blog-client";
 
 export const metadata: Metadata = {
-  title: "The Archive | Insights & Reviews",
-  description: "Explore our curated collection of automotive insights, expert reviews, and industry news.",
+  title: "The Truth | Buyer's Guide",
+  description: "Expert advice on avoiding scams, verifying papers, and picking cars that actually survive Lagos.",
 };
 
 export default function BlogPage() {
@@ -23,10 +23,10 @@ export default function BlogPage() {
             <span className="mono-md text-accent-primary tracking-[0.3em]">EDITORIAL</span>
           </div>
           <h1 className="display-lg text-white">
-            THE <span className="italic font-light text-text-secondary">ARCHIVE</span>
+            THE <span className="italic font-light text-text-secondary">TRUTH</span>
           </h1>
           <p className="body-lg text-text-secondary max-w-2xl">
-            In-depth analysis, expert reviews, and the latest trends from the pinnacle of automotive excellence.
+            Expert advice on avoiding scams, verifying papers, and picking cars that actually survive Lagos.
           </p>
         </header>
 

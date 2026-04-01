@@ -6,6 +6,7 @@ import { BrandsSection } from "@/components/brands-section"
 import { LuxuryFeaturedVehicles } from "@/components/luxury-featured-vehicles"
 import { ClientsReviews } from "@/components/clients-reviews"
 import { ModernNarrative } from "@/components/modern-narrative"
+import { TrustStats } from "@/components/trust-stats"
 
 function AmbientBackground() {
   return (
@@ -46,11 +47,34 @@ export default function Page() {
       <AmbientBackground />
       <HeroAnimation />
 
-      <div className="relative z-10 flex flex-col gap-0 bg-[#020202] shadow-[0_-50px_100px_rgba(0,0,0,0.8)]">
+      {/* Cinematic Content Flow */}
+      <div className="relative z-10 flex flex-col bg-bg-base shadow-[0_-50px_100px_rgba(0,0,0,0.8)]">
+        {/* BRIDGE: Soft Glow Fade */}
+        <div className="h-24 w-full bg-linear-to-b from-transparent to-bg-base" />
+
+        {/* 0. PROOF: High-Impact Trust Stats */}
+        <TrustStats />
+
+        {/* 1. PRODUCT: Call to Action (Search & Browsing) */}
         <LuxuryFeaturedVehicles />
-        <ClientsReviews />
-        <BrandsSection />
+
+        {/* BRIDGE: Subtle Minimalist Divider */}
+        <div className="flex h-32 w-full items-center justify-center bg-bg-base px-12">
+            <div className="h-px w-full max-w-[1600px] bg-white/5 md:w-3/4" />
+        </div>
+
+        {/* 2. THE METHOD: Building Trust & The Engineering Protocol */}
         <ModernNarrative />
+
+        {/* BRIDGE: Fade to Reviews */}
+        <div className="h-32 w-full bg-bg-base" />
+
+        {/* 3. PROOF: Clients Reviews */}
+        <ClientsReviews />
+
+        {/* BRIDGE: Authority Logos */}
+        <div className="h-24 w-full bg-bg-base" />
+        <BrandsSection />
       </div>
     </main>
   )

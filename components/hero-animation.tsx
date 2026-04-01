@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useRef, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
@@ -9,20 +9,47 @@ import LightRays from "@/components/ui/light-rays"
 
 
 export function HeroAnimation() {
+  const videoRef = useRef<HTMLVideoElement>(null)
   const router = useRouter()
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (isMounted && videoRef.current) {
+      const playVideo = () => {
+        videoRef.current?.play().catch(error => {
+          console.error("Autoplay was prevented:", error)
+        })
+      }
+      playVideo()
+    }
+  }, [isMounted])
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-bg-base pt-24 pb-12">
       <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover"
-        >
-          <source src="/video/hero2.mp4" type="video/mp4" />
-        </video>
+        {isMounted && (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            onLoadedMetadata={() => {
+              videoRef.current?.play()
+            }}
+            onEnded={() => {
+              videoRef.current?.play()
+            }}
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            <source src="/video/hero.mp4" type="video/mp4" />
+          </video>
+        )}
         <div className="pointer-events-none absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 z-10">
           <LightRays
@@ -49,26 +76,26 @@ export function HeroAnimation() {
             transition={{ duration: 0.8 }}
             className="flex flex-col items-center"
           >
-            <span className="mb-6 text-[10px] font-black tracking-[1em] text-white/30 uppercase">
-              Ignite Luxury Collection 2026
+            <span className="mb-6 text-xs font-black tracking-[1em] text-white/95 uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+              RELIABLE CARS FOR EVERYDAY NIGERIANS
             </span>
-            <h1 className="flex flex-col items-center text-[10vw] leading-[0.9] font-extralight tracking-tight text-white uppercase md:text-[6vw]">
-              Find Your Dream
-              <span className="font-black tracking-normal text-white italic md:tracking-tighter">
-                Luxury Vehicle Today
+            <h1 className="flex flex-col items-center text-[10vw] leading-[0.9] font-black tracking-tighter text-white uppercase md:text-[6vw]">
+              Reliable Cars. 
+              <span className="font-extralight tracking-tight text-white italic md:tracking-normal">
+                No Long Stories.
               </span>
             </h1>
           </motion.div>
+
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mx-auto max-w-2xl text-[11px] leading-loose font-bold tracking-[0.3em] text-white/40 uppercase md:text-xs"
+            className="mx-auto max-w-2xl text-xs leading-loose font-bold tracking-[0.2em] text-white/90 uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,1)] md:text-sm"
           >
-            Discover exclusive new and pre-owned vehicles with ease,{" "}
-            <br className="hidden md:block" /> transparency, and expert
-            guidance.
+            Inspected. Fairly Priced. Road Ready. <br className="hidden md:block" /> 
+            You Test Drive Before You Pay.
           </motion.p>
         </div>
 
@@ -76,21 +103,27 @@ export function HeroAnimation() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-8 flex w-full justify-center"
+          className="mt-8 flex w-full flex-col items-center justify-center gap-4 sm:flex-row"
         >
           <button
             onClick={() => {
               router.push("/listing")
             }}
-            className="group flex h-16 items-center justify-center gap-4 rounded-full bg-white px-12 text-xs font-black tracking-[0.3em] text-black uppercase shadow-[0_0_40px_rgba(255,255,255,0.1)] transition-all hover:bg-[#F0F0F0] active:scale-95"
+            className="group flex h-16 w-full items-center justify-center gap-4 rounded-full bg-white px-12 text-xs font-black tracking-[0.3em] text-black uppercase shadow-[0_0_40px_rgba(255,255,255,0.1)] transition-all hover:bg-[#F0F0F0] active:scale-95 sm:w-auto"
           >
-            Explore Inventory
+            See Our Cars
             <ArrowRight
               size={16}
               strokeWidth={3}
               className="transition-transform group-hover:translate-x-1"
             />
           </button>
+          <a
+            href="https://wa.me/2347077195098?text=Hi, I saw your cars online and I'd love to find something within my budget. Can you help me?"
+            className="group flex h-16 w-full items-center justify-center gap-4 rounded-full border border-white/20 bg-transparent px-12 text-xs font-black tracking-[0.3em] text-white uppercase backdrop-blur-md transition-all hover:bg-white/5 active:scale-95 sm:w-auto"
+          >
+            WhatsApp Us Now
+          </a>
         </motion.div>
       </div>
 

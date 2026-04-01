@@ -74,18 +74,16 @@ export function BrandsSection() {
             <div className="mb-8 flex items-center gap-4">
               <div className="h-px w-12 bg-white/20" />
               <span className="text-[10px] font-black tracking-[0.5em] text-white/40 uppercase">
-                Archive / Global Manufacturers
+                WE SELL THESE BRANDS
               </span>
             </div>
             <h2 className="text-3xl leading-tight font-black tracking-tight text-white uppercase md:text-5xl md:tracking-tighter">
-              Luxury Vehicles, <br className="block md:hidden" />
-              <span className="text-white/20 italic">Curated for You.</span>
+              Cars You Can Trust <br className="block md:hidden" />
+              <span className="text-white/20 italic">From Brands You Know.</span>
             </h2>
           </div>
           <p className="max-w-xs border-l border-white/10 pl-8 text-[10px] leading-loose font-bold tracking-[0.3em] text-white/50 uppercase md:text-white/30">
-            Explore top-tier vehicles from world-class manufacturers. From BMW
-            to Mercedes-Benz, Audi to Toyota, Ignite Luxury brings premium
-            automobiles to your fingertips.
+            Whether you want a Toyota for your family or a Lexus for business, we have the right car for you at a fair price.
           </p>
         </div>
 
@@ -129,19 +127,26 @@ export function BrandsSection() {
               >
                 <div className="max-w-xl text-center md:text-left">
                   <span className="mb-4 block text-[10px] font-black tracking-[0.5em] text-white/40 uppercase">
-                    Expert Guidance
+                    Need Help Choosing?
                   </span>
                   <p className="text-lg leading-relaxed font-light text-white md:text-xl">
-                    &ldquo;Receive insights from our automotive specialists to simplify your
-                    purchase.&rdquo;
+                    &ldquo;Not sure which car is best for Nigerian roads? Talk to us. We will help you pick a car that won't give you trouble.&rdquo;
                   </p>
                 </div>
-                <button 
-                  onClick={() => setShowAdviceForm(true)}
-                  className="w-full shrink-0 rounded-full bg-white px-12 py-5 text-[10px] font-black tracking-[0.4em] text-black uppercase transition-all hover:bg-white/90 md:w-auto"
-                >
-                  Get Specialized Advice
-                </button>
+                <div className="flex w-full flex-col gap-4 md:w-auto md:flex-row">
+                  <button 
+                    onClick={() => setShowAdviceForm(true)}
+                    className="w-full shrink-0 rounded-full border border-white/10 bg-white/5 px-12 py-5 text-[10px] font-black tracking-widest text-white uppercase transition-all hover:bg-white/10 md:w-auto"
+                  >
+                    Send Us A Message
+                  </button>
+                  <a 
+                    href="https://wa.me/2347077195098?text=Hi, I saw your cars online and I'd love to find something within my budget. Can you help me?"
+                    className="w-full shrink-0 rounded-full bg-white px-12 py-5 text-[10px] font-black items-center justify-center flex tracking-widest text-black uppercase transition-all hover:bg-white/90 md:w-auto"
+                  >
+                    Chat on WhatsApp
+                  </a>
+                </div>
               </motion.div>
             ) : (
               <motion.div

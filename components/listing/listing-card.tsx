@@ -26,7 +26,6 @@ export interface ListingCardVehicle {
   name: string
   brand: string
   price: string
-  monthlyPrice: string
   mileage: string
   year: string
   fuel: string
@@ -85,8 +84,8 @@ export function ListingCard({ vehicle, index, view = "grid" }: ListingCardProps)
       transition={{ duration: 0.45, delay: Math.min(index * 0.035, 0.25) }}
       className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/6 bg-[#0c1220] transition-all duration-500 hover:border-white/15 hover:shadow-[0_28px_56px_rgba(0,0,0,0.6)]"
     >
-      <Link href={`/listing/${vehicle.slug}`} className="relative block overflow-hidden">
-        <div className="relative aspect-16/10 w-full overflow-hidden">
+      <div className="relative block overflow-hidden">
+        <Link href={`/listing/${vehicle.slug}`} className="relative block aspect-16/10 w-full overflow-hidden">
           <Image
             src={imgError ? "/images/card/card-1.jpg" : vehicle.image}
             alt={vehicle.name}
@@ -95,20 +94,18 @@ export function ListingCard({ vehicle, index, view = "grid" }: ListingCardProps)
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             onError={() => setImgError(true)}
           />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0c1220] via-[#0c1220]/30 to-transparent" />
-        </div>
+          <div className="absolute inset-0 bg-linear-to-t from-[#0c1220] via-[#0c1220]/30 to-transparent" />
+        </Link>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/60 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
           <Link
             href={`/listing/${vehicle.slug}`}
-            onClick={(e) => e.stopPropagation()}
             className="flex items-center gap-2 rounded-full bg-white px-7 py-3 text-[10px] font-black tracking-[0.2em] text-black uppercase shadow-2xl transition-transform hover:scale-105"
           >
             View Details <ArrowRight size={13} strokeWidth={3} />
           </Link>
           <Link
             href={`/listing/${vehicle.slug}#inquire`}
-            onClick={(e) => e.stopPropagation()}
             className="flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3 text-[10px] font-black tracking-[0.2em] text-white uppercase backdrop-blur-md transition-all hover:bg-white/20"
           >
             <MessageSquare size={12} /> Inquire
@@ -136,23 +133,25 @@ export function ListingCard({ vehicle, index, view = "grid" }: ListingCardProps)
           <Heart size={14} className={isLiked ? "fill-red-400 text-red-400" : ""} strokeWidth={2} />
         </button>
 
-        <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between">
-          <span className="rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 text-[8px] font-black tracking-[0.2em] text-white/80 uppercase backdrop-blur-md">
-            {vehicle.brand}
-          </span>
-          <div className="flex items-center gap-1.5">
-            <span className={`flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 text-[8px] font-bold text-white/70 backdrop-blur-md`}>
-              <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
-              {status.label}
+        <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between pointer-events-none">
+          <div className="flex flex-col gap-1">
+            <span className="w-fit rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 text-[8px] font-black tracking-[0.2em] text-white/80 uppercase backdrop-blur-md">
+              {vehicle.brand}
             </span>
-            {vehicle.imagesCount > 1 && (
-              <span className="flex items-center gap-1 rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 text-[8px] font-bold text-white/70 backdrop-blur-md">
-                <Images size={9} /> {vehicle.imagesCount}
-              </span>
-            )}
+          </div>
+          <div className="flex items-center gap-1.5">
+             <div className="flex flex-col items-end gap-1">
+                <span className={`flex items-center gap-1.5 rounded-lg border border-white/10 bg-emerald-500/20 px-2 py-1 text-[8px] font-black text-emerald-400 backdrop-blur-md`}>
+                  <CheckCircle size={9} /> EXPERT RATING: 9.8/10
+                </span>
+                <span className={`flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 text-[8px] font-bold text-white/70 backdrop-blur-md`}>
+                  <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
+                  {status.label}
+                </span>
+             </div>
           </div>
         </div>
-      </Link>
+      </div>
 
       <div className="flex flex-1 flex-col p-5 pt-4">
 
@@ -160,10 +159,23 @@ export function ListingCard({ vehicle, index, view = "grid" }: ListingCardProps)
           {vehicle.brand} · {vehicle.year}
         </div>
         <Link href={`/listing/${vehicle.slug}`}>
-          <h3 className="mb-3 line-clamp-1 text-lg font-black tracking-tight text-white transition-colors group-hover:text-white/90 uppercase">
+          <h3 className="mb-3 line-clamp-1 text-base font-black tracking-tight text-white transition-colors group-hover:text-white/90 uppercase">
             {vehicle.name}
           </h3>
         </Link>
+
+        <div className="mb-4 flex flex-wrap gap-2">
+          {vehicle.featured && (
+            <div className="flex items-center gap-2 rounded-lg bg-amber-500/10 px-3 py-2 border border-amber-500/20">
+              <Star size={12} className="text-amber-400 fill-amber-400" />
+              <span className="text-[10px] font-bold text-amber-400/90 uppercase tracking-wider">Top Recommendation</span>
+            </div>
+          )}
+          <div className="flex items-center gap-2 rounded-lg bg-emerald-500/10 px-3 py-2 border border-emerald-500/20">
+            <CheckCircle size={12} className="text-emerald-400" />
+            <span className="text-[10px] font-bold text-emerald-400/90 uppercase tracking-wider">Verified · No Stories</span>
+          </div>
+        </div>
 
         <div className="mb-4 flex flex-wrap gap-1.5">
           {vehicle.bodyType && (
@@ -201,12 +213,14 @@ export function ListingCard({ vehicle, index, view = "grid" }: ListingCardProps)
 
           <div className="mb-4 flex items-end justify-between">
             <div>
-              <div className="mb-0.5 text-[8px] font-black tracking-[0.2em] text-white/25 uppercase">Market Price</div>
+              <div className="mb-0.5 text-[8px] font-black tracking-[0.2em] text-emerald-400 uppercase">Ignite Promise Price</div>
               <div className="text-2xl font-black tracking-tighter text-white">{vehicle.price}</div>
             </div>
-            <div className="text-right">
-              <div className="mb-0.5 text-[8px] text-white/20 uppercase tracking-widest font-black">Finance from</div>
-              <div className="text-sm font-black text-white/40">{vehicle.monthlyPrice}</div>
+            <div className="flex flex-col items-end">
+              <div className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1.5 border border-emerald-500/20">
+                <CheckCircle size={10} className="text-emerald-400" />
+                <span className="text-[8px] font-black text-emerald-400 uppercase tracking-widest">Fixed · Fair</span>
+              </div>
             </div>
           </div>
 
@@ -253,7 +267,7 @@ function ListCardHorizontal({
           sizes="280px"
           onError={() => setImgError(true)}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0c1220]" />
+        <div className="absolute inset-0 bg-linear-to-r from-transparent via-transparent to-[#0c1220]" />
         {/* Badges */}
         {vehicle.condition && (
           <span className={`absolute top-3 left-3 rounded-full border px-2.5 py-1 text-[8px] font-black tracking-widest uppercase backdrop-blur-md ${conditionStyle(vehicle.condition)}`}>
@@ -318,9 +332,8 @@ function ListCardHorizontal({
         {/* Bottom row */}
         <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-4">
           <div>
-            <div className="mb-0.5 text-[8px] font-black tracking-[0.2em] text-white/25 uppercase">Market Price</div>
-            <div className="text-2xl font-black tracking-tighter text-white">{vehicle.price}</div>
-            <div className="text-[9px] text-white/30">Finance from {vehicle.monthlyPrice}</div>
+            <div className="mb-0.5 text-[8px] font-black tracking-[0.2em] text-emerald-400 uppercase">Ignite Promise Price</div>
+            <div className="text-3xl font-black tracking-tighter text-white">{vehicle.price}</div>
           </div>
           <div className="flex items-center gap-2">
             <Link
